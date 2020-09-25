@@ -1,0 +1,314 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model PET_ADOPTION_SYSTEM.Models.ANIMAL_POST_MODEL
+@{
+}
+<link rel="stylesheet" href="~/css/PostArticle.css">
+<body>
+    <div class="main">
+        <div class="wrapper">
+            <form asp-action="PostArticle" method="post" id="formArticle">
+                <table>
+                    <tr>
+                        <td class="post-label"><label for="">晶片號碼</label></td>
+                        <td>
+                            <input type="text" asp-for="CHIP_NO">
+                            <span asp-validation-for="CHIP_NO" class="text-danger"></span>
+                        </td>
+                        <td rowspan="4"><img width="60%" src="../img/unnamed.png" alt="" id="img_01"><input type="file" id="file_01"></td>
+                    </tr>
+                    <tr>
+                        <td class="post-label"><label for="">文章標題</label></td>
+                        <td>
+                            <input type="text" asp-for="TITLE">
+                            <span asp-validation-for="TITLE" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="post-label"><label for="">動物類別</label></td>
+                        <td>
+                            <select asp-for="ANIMAL_KIND" asp-items="@(ViewBag.AnimalKind)">
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="post-label"><label for="">動物品種</label></td>
+                        <td>
+                            <select asp-for="ANIMAL_BREED" asp-items="@(ViewBag.AnimalBreed)">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="post-label"><label for="">動物性別</label></td>
+                        <td>
+                            <select asp-for="ANIMAL_SEX" asp-items="@(ViewBag.AnimalSex)">
+                            </select>
+                        </td>
+                        <td rowspan="4"><img width="60%" src="../img/unnamed.png" alt="" id="img_02"><input type="file" id="file_02"></td>
+                    </tr>
+                    <tr>
+                        <td class="post-label"><label for="">所在縣市</label></td>
+                        <td>
+                            <select asp-for="CITY_ID">
+                            </select>
+                            <select asp-for="AREA_ID">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td class="post-label"><label for="">送養原因</label></td><td><textarea cols="30" rows="10" asp-for="REASON"></textarea></td></tr>
+                    <tr><td class="post-label"><label for="">備註</label></td><td><textarea cols="30" rows="10" asp-for="MEMO"></textarea></td></tr>
+                </table>
+                <input type="button" value="發表文章" id="btnPost" onclick="postArticle()">
+
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    var fileType = ['image/jpeg', 'image/png'];
+
+    document.querySelectorAll('input[type="file"]').forEach(function (fileItem) {
+        fileItem.addEventListener('change', function (e) {
+            var target = e.target;
+            var img = document.querySelector('#' + e.target.previousElementSibling.id);
+            var chk = checkFile(target);
+            if (!chk.valid) {
+                alert(chk.message);
+                setDefaultImage(img);
+                return false;
+            }
+            previewImage(target.files[0], img);
+        })
+    })
+    function checkFile(target) {
+        var result = { "valid": true, message: "" };
+        //請選擇上傳檔案
+        if (target.files.length === 0) {
+            result.valid = false;
+            result.message = "請選擇上傳檔案";
+        }
+        //檔案格式不符合 也可用includes
+        else if (fileType.indexOf(target.files[0].type) === -1) {
+            result.valid = false;
+            result.message = "檔案格式不符合";
+        }
+        //檔案大小過大
+        else if (target.files[0].size > 1024 * 1024) {
+            result.valid = false;
+            result.message = "檔案大小過大";
+        }
+        return result;
+    }
+    //圖片預覽
+    function previewImage(file, img) {
+        var imgBlob = URL.createObjectURL(file);
+        img.src = imgBlob;
+    }
+    //圖片預覽設為無
+    function setDefaultImage(img) {
+        img.src = '../img/unnamed.png';
+    }
+
+    function getArrayBuffer(fileObj) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                resolve(reader.result);
+            });
+            reader.addEventListener("error", () => {
+                reject("error occurred in getArrayBuffer");
+            });
+            reader.readAsArrayBuffer(fileObj);
+        })
+
+    }
+
+    async function getUint8Array(arrBuffer) {
+
+        return (Array.from(new Uint8Array(await arrBuffer))).toString();
+    }
+    //發表文章
+    async function postArticle() {
+        if (!$('#formArticle').valid()) {
+            return;
+        }
+        let data = {};
+        data.ANIMAL_IMAGE_MODELs = [];
+        let CHIP_NO = document.querySelector('#CHIP_NO').value;
+        let TITLE = document.querySelector('#TITLE').value;
+        let ANIMAL_KIND = document.querySelector('#ANIMAL_KIND').value;
+        let ANIMAL_SEX = document.querySelector('#ANIMAL_SEX').value;
+        let ANIMAL_BREED = document.querySelector('#ANIMAL_BREED').value;
+        let AREA_ID = parseInt(document.querySelector('#AREA_ID').value);
+        let REASON = document.querySelector('#REASON').value;
+        let MEMO = document.querySelector('#MEMO').value;
+        let file_01 = document.querySelector('#file_01');
+        let file_02 = document.querySelector('#file_02');
+        let checkFile_01 = checkFile(file_01);
+        let checkFile_02 = checkFile(file_02);
+        data.POST_ID = parseInt(getUrlParameter('POST_ID')) || 0;
+        data.TITLE = TITLE;
+        data.CHIP_NO = CHIP_NO;
+        data.ANIMAL_KIND = ANIMAL_KIND;
+        data.ANIMAL_SEX = ANIMAL_SEX;
+        data.ANIMAL_BREED = ANIMAL_BREED;
+        data.AREA_ID = AREA_ID;
+        data.REASON = REASON;
+        data.MEMO = MEMO;
+        if (checkFile_01.valid) {
+            let IMAGE_UINT8ARRAY = await getUint8Array(getArrayBuffer(file_01.files[0]));
+            data.ANIMAL_IMAGE_MODELs.push(
+                { SEQ: 1, IMAGE_UINT8ARRAY: IMAGE_UINT8ARRAY }
+            );
+        }
+        if (checkFile_02.valid) {
+            let IMAGE_UINT8ARRAY = await getUint8Array(getArrayBuffer(file_02.files[0]));
+            data.ANIMAL_IMAGE_MODELs.push(
+                { SEQ: 2, IMAGE_UINT8ARRAY: IMAGE_UINT8ARRAY }
+            );
+        }
+        @{
+            string action = ViewBag.actionType == "update" ? "EditArticle" : "PostArticle";
+        }
+
+
+        var postPromise = fetch('@Url.Action(action,"Article")', {
+            method: 'POST',
+            body:
+                JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        postPromise
+            .then(resolve => {
+                return resolve.json();
+            })
+            .then(jsonData => {
+                if (jsonData.responseStatus == 1) {
+                    alert(jsonData.message);
+                    redirectHomepage();
+                }
+            })
+    }
+    function updateArticle() {
+
+    }
+    //初始化動物品種下單式選單
+    function setAnimalBreedData() {
+        var animalBreed = document.querySelector('#ANIMAL_BREED');
+        animalBreed.innerHTML = '';
+        return fetch('@Url.Action("GetAnimalBreed", "Article")', {
+            method: 'POST',
+            body: JSON.stringify(document.querySelector('#ANIMAL_KIND').value),
+            headers: { 'content-type': 'application/json' }
+        })
+            .then(resolve => {
+                return resolve.json();
+            })
+            .then(jsonData => {
+                jsonData.forEach(function (breed) {
+                    var option = document.createElement('option');
+                    option.value = breed.ANIMAL_BREED_ID;
+                    option.innerText = breed.ANIMAL_BREED_NAME;
+                    animalBreed.appendChild(option);
+                })
+            })
+    }
+    //初始化縣市下拉式選單
+    function setCity() {
+        var city = document.querySelector('#CITY_ID');
+        city.innerHTML = '';
+        fetch('@Url.Action("GetCity", "Article")', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' }
+        })
+            .then(resolve => {
+                return resolve.json();
+            })
+            .then(jsonData => {
+                jsonData.forEach(function (cityItem) {
+                    var option = document.createElement('option');
+                    option.value = cityItem.CITY_ID;
+                    option.innerText = cityItem.CITY_NAME;
+                    city.appendChild(option);
+                })
+                setArea();
+            })
+    }
+    //初始化鄉鎮市區下拉式選單
+    function setArea() {
+        var area = document.querySelector('#AREA_ID');
+        area.innerHTML = '';
+        //var areaPromise = new Promise();
+        return fetch('@Url.Action("GetArea", "Article")', {
+            method: 'POST',
+            body: JSON.stringify(parseInt(document.querySelector('#CITY_ID').value)),
+            headers: { 'content-type': 'application/json' }
+        })
+            .then(resolve => {
+                return resolve.json();
+            })
+            .then(jsonData => {
+                jsonData.forEach(function (areaItem) {
+                    var option = document.createElement('option');
+                    option.value = areaItem.AREA_ID;
+                    option.innerText = areaItem.AREA_NAME;
+                    area.appendChild(option);
+                    //areaPromise.resolve;
+                })
+            })
+        //return areaPromise;
+    }
+
+    (function () {
+        document.querySelector('#ANIMAL_KIND').addEventListener('change', function (e) {
+            setAnimalBreedData();
+        })
+        document.querySelector('#CITY_ID').addEventListener('change', function (e) {
+            setArea();
+        })
+        setCity();
+        if ('@ViewBag.actionType' == 'update') {
+            fetch('@Url.Action("GetArticleDetail", "Article")', {
+                method: 'POST',
+                body: JSON.stringify(parseInt(getUrlParameter('POST_ID'))),
+                headers: {
+                    'content-type':'application/json'
+                }
+            })
+                .then(
+                resolve => {
+                return resolve.json();
+            })
+                .then(jsonData => {
+                    document.querySelector('#CHIP_NO').value=jsonData.CHIP_NO;
+                    document.querySelector('#TITLE').value=jsonData.TITLE;
+                    document.querySelector('#ANIMAL_KIND').value=jsonData.ANIMAL_KIND;
+                    document.querySelector('#ANIMAL_SEX').value=jsonData.ANIMAL_SEX;
+                    document.querySelector('#CITY_ID').value=jsonData.CITY_ID;
+                    document.querySelector('#REASON').value=jsonData.REASON;
+                    document.querySelector('#MEMO').value=jsonData.MEMO;
+                    //document.querySelector('#ANIMAL_BREED').value = jsonData.ANIMAL_BREED;
+                    setArea().then(function () {
+                        document.querySelector('#AREA_ID').value = jsonData.AREA_ID;
+                    })
+                    setAnimalBreedData().then(function () {
+                        document.querySelector('#ANIMAL_BREED').value = jsonData.ANIMAL_BREED;
+                    })
+                    if (jsonData.ANIMAL_IMAGE_MODELs && jsonData.ANIMAL_IMAGE_MODELs.length>0) {
+                        if (jsonData.ANIMAL_IMAGE_MODELs[0]) {
+                            document.querySelector('#img_01').src =
+                                jsonData.ANIMAL_IMAGE_MODELs[0].IMAGE_ADDRESS.replace('~','..');
+                        }
+                        if (jsonData.ANIMAL_IMAGE_MODELs[1]) {
+                            document.querySelector('#img_02').src = jsonData.ANIMAL_IMAGE_MODELs[1].IMAGE_ADDRESS.replace('~', '..');
+                        }
+                    }
+                });
+        }
+
+    })()
+</script>

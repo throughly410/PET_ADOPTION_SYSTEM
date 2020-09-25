@@ -1,0 +1,97 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+@model PET_ADOPTION_SYSTEM.Models.MEMBER_MODEL
+    <link rel="stylesheet" href="~/css/Register.css">
+@*<style>
+
+    /*main*/
+
+
+
+    .wrapper {
+        height: 100%;
+    }
+
+        .wrapper h1 {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .wrapper table {
+            margin: auto;
+            line-height: 30px;
+        }
+        /* .wrapper table tr{
+
+    } */
+
+        .wrapper form input {
+            line-height: 18px;
+        }
+
+
+            .wrapper form input[type="submit"] {
+                margin: auto;
+                display: block;
+                /* text-align: center; */
+            }
+</style>*@
+<body>
+
+    <div class="main">
+        <div class="wrapper">
+            <h1>會員註冊</h1>
+            <form method="post">
+                <table>
+                    <tr>
+                        <td>帳號</td>
+                        <td><input type="text" asp-for="ACCOUNT">
+                            <span asp-validation-for="ACCOUNT" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>密碼</td>
+                        <td><input type="text" asp-for="PASSWARD"></td>
+                    </tr>
+                    <tr>
+                        <td>確認密碼</td>
+                        <td><input type="text" asp-for="VERIFIED_PASSWARD"></td>
+                    </tr>
+                    <tr>
+                        <td>暱稱</td>
+                        <td><input type="text" asp-for="NAME"></td>
+                    </tr>
+                    <tr>
+                        <td>聯絡信箱</td>
+                        <td><input type="text" asp-for="EMAIL"></td>
+                    </tr>
+                    <tr>
+                        <td>連絡電話</td>
+                        <td><input type="text" asp-for="PHONE"></td>
+                    </tr>
+                </table>
+                <input type="submit">
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</body>
+<script>
+
+
+
+
+
+
+
+</script>

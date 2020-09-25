@@ -1,0 +1,22 @@
+.wrapper{
+    width:80%;
+    margin:0 auto;
+}
+th,td{
+/* border:2px blue solid; */
+}
+td{
+width:40%;
+text-align: center;
+}
+td input,select,textarea{
+width:80%;
+}
+
+.post-label{
+width:15%;
+}
+input[type="submit"], input[type="file"]{
+display:block;
+margin:20px auto;
+}

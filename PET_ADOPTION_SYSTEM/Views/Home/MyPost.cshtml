@@ -1,0 +1,152 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<link rel="stylesheet" href="~/css/MyPost.css">
+<body>
+    <div class="main">
+        <div class="wrapper">
+            <table id="articleTable">
+                @*<tr>
+                    <th>文章標題</th>
+                    <th>最後修改日期</th>
+                    <th>選項</th>
+                </tr>
+                <tr>
+                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
+                    <td>2020/09/17</td>
+                    <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
+                </tr>
+                <tr>
+                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
+                    <td>2020/09/17</td>
+                    <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
+                </tr>
+                <tr>
+                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
+                    <td>2020/09/17</td>
+                    <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
+                </tr>
+                <tr>
+                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
+                    <td>2020/09/17</td>
+                    <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
+                </tr>*@ 
+            </table>
+
+        </div>
+    </div>
+
+
+</body>
+
+<script>
+    (function () {
+        fetch('@Url.Action("GetArticleByMember", "Article")', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' }
+        })
+            .then(resolve => {
+                return resolve.json()
+            })
+            .then(jsonData => {
+                setArticleDOM(jsonData);
+            })
+
+
+
+        function setArticleDOM(jsonData) {
+            var articleTable = document.querySelector('#articleTable');
+            jsonData.forEach(function (item) {
+                var tr = document.createElement('tr');
+                var td = document.createElement('td');
+                td.innerText = (item.TITLE);
+                tr.appendChild(td);
+                td = document.createElement('td');
+                td.innerText = (transDateStr(new Date(item.MDF_DATE)));
+                tr.appendChild(td);
+                td = document.createElement('td');
+                var inputID = document.createElement('input');
+                inputID.type = 'hidden';
+                inputID.value = item.POST_ID;
+                td.appendChild(inputID);
+                var a = document.createElement('a');
+                a.href = '#';
+                a.innerText = '編輯';
+                a.classList = 'edit';
+                var span = document.createElement('span');
+                span.appendChild(a);
+                td.appendChild(span);
+                a = document.createElement('a');
+                a.href = '#';
+                a.innerText = '檢視';
+                a.classList = 'view';
+                span = document.createElement('span');
+                span.appendChild(a);
+                td.appendChild(span);
+                a = document.createElement('a');
+                a.href = '#';
+                a.innerText = '刪除';
+                a.classList = 'delete';
+                span = document.createElement('span');
+                span.appendChild(a);
+                td.appendChild(span);
+                tr.appendChild(td);
+                articleTable.appendChild(tr);
+            })
+            document.querySelectorAll('.edit').forEach(function (item) {
+                item.addEventListener('click', function (e) {
+                    var POST_ID = e.target.parentElement.previousElementSibling.value;
+                    editArticle(POST_ID);
+                })
+            })
+
+            document.querySelectorAll('.view').forEach(function (item) {
+                item.addEventListener('click', function (e) {
+                    var POST_ID = e.target.parentElement.previousElementSibling.previousElementSibling.value;
+                    editArticle(POST_ID);
+                })
+            })
+
+            document.querySelectorAll('.delete').forEach(function (item) {
+                item.addEventListener('click', function (e) {
+                    var POST_ID = e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.value;
+                    editArticle(POST_ID);
+                })
+            })
+
+        }
+    })();
+
+    function editArticle(POST_ID) {
+        window.location.href = '@Url.Action("PostArticle","Article")?POST_ID=' + POST_ID + '&actionType=update';
+    }
+
+    function viewArticle(POST_ID) {
+
+    }
+
+    function deleteArticle(POST_ID) {
+        var cf = confirm('確定刪除文章?');
+    }
+
+
+
+    function transDateStr(d)
+    {
+        return d.getFullYear().toString() +
+            "-" +
+            ((d.getMonth() + 1).toString().length == 2 ? (d.getMonth() + 1).toString() : "0" +
+                (d.getMonth() + 1).toString()) +
+            "-" +
+            (d.getDate().toString().length == 2 ? d.getDate().toString() : "0" +
+                d.getDate().toString()) + " " +
+            (d.getHours().toString().length == 2 ? d.getHours().toString() : "0" + d.getHours().toString()) +
+            ":" +
+            ((parseInt(d.getMinutes() / 5) * 5).toString().length == 2 ? (parseInt(d.getMinutes() / 5) * 5).toString() : "0" +
+                (parseInt(d.getMinutes() / 5) * 5).toString()) +
+            ":00";
+    }
+
+</script>

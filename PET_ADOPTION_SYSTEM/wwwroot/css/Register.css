@@ -1,0 +1,28 @@
+
+.wrapper{
+    height:100%;
+}
+.wrapper h1{
+    text-align:center;
+    padding:15px;
+}
+
+.wrapper table{
+    margin:auto;
+    line-height: 30px;
+}
+/* .wrapper table tr{
+    
+} */
+
+.wrapper form input{
+    line-height: 18px;
+    
+}
+
+
+.wrapper form input[type="submit"]{
+    margin:auto;
+    display:block;
+    /* text-align: center; */
+}

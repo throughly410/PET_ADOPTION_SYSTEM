@@ -1,0 +1,32 @@
+.main{
+    position:relative;
+}
+.wrapper{
+    height: 100%;
+    
+}
+
+.wrapper table{
+    margin:0 auto;
+}
+
+.wrapper 
+th,td{
+/* border:2px blue solid; */
+}
+td{
+/* width:40%; */
+text-align: center;
+}
+.pager{
+position: absolute;
+left:50%; bottom:0;
+transform: translate(-50%, 0);
+}
+
+.pager span{
+display:inline-block;
+border:1px gray solid;
+padding: 3px;
+margin:0 auto;
+}
