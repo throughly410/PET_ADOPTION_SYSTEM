@@ -10,18 +10,18 @@
 
 開發環境－asp.net core 3.1
 
-分層架構
-主專案－PET_ADOPTION_SYSTEM
-資料存取層－PET_ADOPTION_SYSTEM.Dacs
-資料模型層－PET_ADOPTION_SYSTEM.Models
-服務層－PET_ADOPTION_SYSTEM.Services
+分層架構  
+主專案－PET_ADOPTION_SYSTEM  
+資料存取層－PET_ADOPTION_SYSTEM.Dacs  
+資料模型層－PET_ADOPTION_SYSTEM.Models  
+服務層－PET_ADOPTION_SYSTEM.Services  
 
-寫入LOG套件－NLog
-ORM工具－Dapper
+寫入LOG套件－NLog  
+ORM工具－Dapper  
 
-後端套件管理Nuget
-前端套件管理libman.json
-新增前端套件流程－專案右鍵->加入->用戶端程式庫
+後端套件管理Nuget  
+前端套件管理libman.json  
+新增前端套件流程－專案右鍵->加入->用戶端程式庫  
 
 ## 系統介紹
 
