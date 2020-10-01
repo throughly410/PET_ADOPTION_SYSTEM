@@ -155,12 +155,15 @@ ORM工具－Dapper
 |7|   MDF_USER|   |   |   VARCHAR(16)|   |   修改人員|
 |8|   MDF_DATE|   |   |   DATETIME|   GETDATE()|   修改日期|
 
-尚需改善或學習的部分
+### 尚需改善或學習的部分
 1. 後端非同步的使用 async await  
 2. 前端資料模型驗證可改用非套件或更輕量化的套件
 3. 
 
 
-此專案的參考資料
+### 此專案的參考資料
+
+寵物收容API串接
+https://data.coa.gov.tw/Query/ServiceTransDetail.aspx?id=QcbUEzN6E6DL
 
 
