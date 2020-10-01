@@ -1,27 +1,32 @@
-# PET_ADOPTION_SYSTEM
+# 寵物領養平台 PET_ADOPTION_SYSTEM
 
 專案介紹
+
+
+
 動機
+練習asp.net core mvc，前端大部分採用原生JS
+
+
+開發環境－asp.net core 3.1
 
 分層架構
-主專案
-NLOG
+主專案－PET_ADOPTION_SYSTEM
+資料存取層－PET_ADOPTION_SYSTEM.Dacs
+資料模型層－PET_ADOPTION_SYSTEM.Models
+服務層－PET_ADOPTION_SYSTEM.Services
 
-Models
+寫入LOG套件－NLog
+ORM工具－Dapper
 
-Services
-
-Dacs
-Dapper
+後端套件管理Nuget
+前端套件管理libman.json
+新增前端套件流程－專案右鍵->加入->用戶端程式庫
 
 ## 系統介紹
 
 # 資料庫Schema
-會員資料表
-送養寵物資料表
-走失寵物資料表
-系統資料表
-留言資料表
+
 
 狀態
 N '正常使用中'
