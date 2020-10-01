@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PET_ADOPTION_SYSTEM.Models;
 using PET_ADOPTION_SYSTEM.Services;
 
@@ -16,12 +17,20 @@ namespace PET_ADOPTION_SYSTEM.Controllers
     public class ShelterController : _Controller
     {
         public IShelterService shelterService { get; }
-        public ShelterController(IShelterService shelterService) 
+        public IParamService paramService { get; }
+        public ShelterController(IShelterService shelterService, IParamService paramService) 
         {
             this.shelterService = shelterService;
+            this.paramService = paramService;
         }
         public IActionResult Shelter()
         {
+            //paramService.GetSET_PARAM
+            ViewBag.AnimalSex = new SelectList(paramService.GetSET_PARAM("AnimalSex"), "PARAM_VALUE", "PARAM_DESC");
+            ViewBag.AnimalKind = new SelectList(paramService.GetSET_PARAM("AnimalKind"), "PARAM_DESC", "PARAM_DESC");
+            ViewBag.AnimalStatus = new SelectList(paramService.GetSET_PARAM("AnimalStatus"), "PARAM_VALUE", "PARAM_DESC");
+            ViewBag.AnimalBodytype = new SelectList(paramService.GetSET_PARAM("AnimalBodytype"), "PARAM_VALUE", "PARAM_DESC");
+            ViewBag.Shelter = new SelectList(paramService.GetAnimalShelter(), "animal_shelter_pkid", "shelter_name");
             return View();
         }
         [HttpPost]
@@ -50,6 +59,5 @@ namespace PET_ADOPTION_SYSTEM.Controllers
                 throw;
             }
         }
-        
     }
 }

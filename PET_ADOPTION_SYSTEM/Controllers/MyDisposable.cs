@@ -9,12 +9,12 @@ namespace PET_ADOPTION_SYSTEM.Controllers
     {
         public MyDisposable()
         {
-            Console.WriteLine("{0} was created", this.GetType().Name);
+            //Console.WriteLine("{0} was created", this.GetType().Name);
         }
 
         public void Dispose()
         {
-            Console.WriteLine("- {0} was disposed", this.GetType().Name);
+            //Console.WriteLine("- {0} was disposed", this.GetType().Name);
         }
 
     }

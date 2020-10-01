@@ -10,5 +10,6 @@ namespace PET_ADOPTION_SYSTEM.Models
         public int SEQ { get; set; }
         public string IMAGE_ADDRESS { get; set; }
         public string IMAGE_UINT8ARRAY { get; set; }
+        public string EXTENSION { get; set; }
     }
 }

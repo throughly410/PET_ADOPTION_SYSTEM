@@ -11,18 +11,25 @@
             <form asp-action="PostArticle" method="post" id="formArticle">
                 <table>
                     <tr>
-                        <td class="post-label"><label for="">晶片號碼</label></td>
+                        <td class="post-labWel"><label for="">晶片號碼</label></td>
                         <td>
                             <input type="text" asp-for="CHIP_NO">
                             <span asp-validation-for="CHIP_NO" class="text-danger"></span>
                         </td>
-                        <td rowspan="4"><img width="60%" src="../img/unnamed.png" alt="" id="img_01"><input type="file" id="file_01"></td>
+                        <td rowspan="5"><img width="60%" src="../img/unnamed.png" alt="" id="img_01"><input type="file" id="file_01"></td>
                     </tr>
                     <tr>
                         <td class="post-label"><label for="">文章標題</label></td>
                         <td>
                             <input type="text" asp-for="TITLE">
                             <span asp-validation-for="TITLE" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="post-label"><label for="">文章類型</label></td>
+                        <td>
+                            <select asp-for="POST_TYPE" asp-items="@(ViewBag.PostType)">
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -61,14 +68,14 @@
                     <tr><td class="post-label"><label for="">備註</label></td><td><textarea cols="30" rows="10" asp-for="MEMO"></textarea></td></tr>
                 </table>
                 <input type="button" value="發表文章" id="btnPost" onclick="postArticle()">
-
             </form>
         </div>
     </div>
 </body>
 <script>
     var fileType = ['image/jpeg', 'image/png'];
-
+    var extension = ['.jpg', '.png'];
+    //圖片上傳的事件綁定
     document.querySelectorAll('input[type="file"]').forEach(function (fileItem) {
         fileItem.addEventListener('change', function (e) {
             var target = e.target;
@@ -82,6 +89,7 @@
             previewImage(target.files[0], img);
         })
     })
+    //圖片上傳檔案檢核
     function checkFile(target) {
         var result = { "valid": true, message: "" };
         //請選擇上傳檔案
@@ -144,12 +152,14 @@
         let AREA_ID = parseInt(document.querySelector('#AREA_ID').value);
         let REASON = document.querySelector('#REASON').value;
         let MEMO = document.querySelector('#MEMO').value;
+        let POST_TYPE = document.querySelector('#POST_TYPE').value;
         let file_01 = document.querySelector('#file_01');
         let file_02 = document.querySelector('#file_02');
         let checkFile_01 = checkFile(file_01);
         let checkFile_02 = checkFile(file_02);
         data.POST_ID = parseInt(getUrlParameter('POST_ID')) || 0;
         data.TITLE = TITLE;
+        data.POST_TYPE = parseInt(POST_TYPE);
         data.CHIP_NO = CHIP_NO;
         data.ANIMAL_KIND = ANIMAL_KIND;
         data.ANIMAL_SEX = ANIMAL_SEX;
@@ -159,33 +169,21 @@
         data.MEMO = MEMO;
         if (checkFile_01.valid) {
             let IMAGE_UINT8ARRAY = await getUint8Array(getArrayBuffer(file_01.files[0]));
+            debugger;
             data.ANIMAL_IMAGE_MODELs.push(
-                { SEQ: 1, IMAGE_UINT8ARRAY: IMAGE_UINT8ARRAY }
+                { SEQ: 1, IMAGE_UINT8ARRAY: IMAGE_UINT8ARRAY, EXTENSION: extension[fileType.indexOf(file_01.files[0].type)] }
             );
         }
         if (checkFile_02.valid) {
             let IMAGE_UINT8ARRAY = await getUint8Array(getArrayBuffer(file_02.files[0]));
             data.ANIMAL_IMAGE_MODELs.push(
-                { SEQ: 2, IMAGE_UINT8ARRAY: IMAGE_UINT8ARRAY }
+                { SEQ: 2, IMAGE_UINT8ARRAY: IMAGE_UINT8ARRAY, EXTENSION: extension[fileType.indexOf(file_02.files[0].type)] }
             );
         }
         @{
             string action = ViewBag.actionType == "update" ? "EditArticle" : "PostArticle";
         }
-
-
-        var postPromise = fetch('@Url.Action(action,"Article")', {
-            method: 'POST',
-            body:
-                JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        postPromise
-            .then(resolve => {
-                return resolve.json();
-            })
+        fetchJsonByPost('@Url.Action(action,"Article")', data)
             .then(jsonData => {
                 if (jsonData.responseStatus == 1) {
                     alert(jsonData.message);
@@ -193,21 +191,14 @@
                 }
             })
     }
-    function updateArticle() {
 
-    }
     //初始化動物品種下單式選單
     function setAnimalBreedData() {
         var animalBreed = document.querySelector('#ANIMAL_BREED');
         animalBreed.innerHTML = '';
-        return fetch('@Url.Action("GetAnimalBreed", "Article")', {
-            method: 'POST',
-            body: JSON.stringify(document.querySelector('#ANIMAL_KIND').value),
-            headers: { 'content-type': 'application/json' }
-        })
-            .then(resolve => {
-                return resolve.json();
-            })
+        return fetchJsonByPost('@Url.Action("GetAnimalBreed", "Article")',
+            document.querySelector('#ANIMAL_KIND').value
+        )
             .then(jsonData => {
                 jsonData.forEach(function (breed) {
                     var option = document.createElement('option');
@@ -221,13 +212,7 @@
     function setCity() {
         var city = document.querySelector('#CITY_ID');
         city.innerHTML = '';
-        fetch('@Url.Action("GetCity", "Article")', {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' }
-        })
-            .then(resolve => {
-                return resolve.json();
-            })
+        fetchJsonByPost('@Url.Action("GetCity", "Article")', {})
             .then(jsonData => {
                 jsonData.forEach(function (cityItem) {
                     var option = document.createElement('option');
@@ -242,22 +227,14 @@
     function setArea() {
         var area = document.querySelector('#AREA_ID');
         area.innerHTML = '';
-        //var areaPromise = new Promise();
-        return fetch('@Url.Action("GetArea", "Article")', {
-            method: 'POST',
-            body: JSON.stringify(parseInt(document.querySelector('#CITY_ID').value)),
-            headers: { 'content-type': 'application/json' }
-        })
-            .then(resolve => {
-                return resolve.json();
-            })
+        return fetchJsonByPost('@Url.Action("GetArea", "Article")',
+            parseInt(document.querySelector('#CITY_ID').value))
             .then(jsonData => {
                 jsonData.forEach(function (areaItem) {
                     var option = document.createElement('option');
                     option.value = areaItem.AREA_ID;
                     option.innerText = areaItem.AREA_NAME;
                     area.appendChild(option);
-                    //areaPromise.resolve;
                 })
             })
         //return areaPromise;
@@ -271,18 +248,9 @@
             setArea();
         })
         setCity();
-        if ('@ViewBag.actionType' == 'update') {
-            fetch('@Url.Action("GetArticleDetail", "Article")', {
-                method: 'POST',
-                body: JSON.stringify(parseInt(getUrlParameter('POST_ID'))),
-                headers: {
-                    'content-type':'application/json'
-                }
-            })
-                .then(
-                resolve => {
-                return resolve.json();
-            })
+        if ('@ViewBag.actionType' == 'update' || '@ViewBag.actionType' == 'view') {
+            fetchJsonByPost('@Url.Action("GetArticleDetail", "Article")',
+                parseInt(getUrlParameter('POST_ID')))
                 .then(jsonData => {
                     document.querySelector('#CHIP_NO').value=jsonData.CHIP_NO;
                     document.querySelector('#TITLE').value=jsonData.TITLE;
@@ -308,6 +276,12 @@
                         }
                     }
                 });
+        }
+
+        if ('@ViewBag.actionType' == 'view') {
+            document.querySelectorAll('input, select, textarea').forEach(function (item) {
+                item.disabled = true
+            })
         }
 
     })()

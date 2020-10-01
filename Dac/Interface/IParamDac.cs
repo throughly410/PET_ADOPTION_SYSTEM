@@ -10,5 +10,7 @@ namespace PET_ADOPTION_SYSTEM.Dacs
          IEnumerable<AREA_MODEL> GetSET_PARAM(int CITY_ID);
         IEnumerable<ANIMAL_BREED_MODEL> GetANIMAL_BREED(string ANIMAL_KIND);
         IEnumerable<AREA_MODEL> GetAREA(int CITY_ID);
+        IEnumerable<SHELTER_MODEL> GetSHELTER();
+        IEnumerable<ANNOUNCEMENT_MODEL> GetANNOUNCEMENT();
     }
 }

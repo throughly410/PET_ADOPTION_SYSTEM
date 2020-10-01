@@ -12,10 +12,11 @@
     <script src="~/js/funcComm.js"></script>
 </head>
 <body>
+    @Html.AntiForgeryToken()
     <div class="nav">
         <h1 class="logo"><a href="@Url.Action("Index","Home")">寵物認養平台</a></h1>
         <ul class="navbar">
-            @if (@ViewBag.loginUser != null) 
+            @if (@ViewBag.loginUser != null)
             {
                 <li><span>@(ViewBag.loginUser)您好</span></li>
             }

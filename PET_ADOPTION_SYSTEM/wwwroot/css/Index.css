@@ -1,5 +1,18 @@
 
 
+.announcement table{
+    width:80%;
+    text-align:center;
+}
+#annDate{
+    width:40%;
+}
+
+#annTitle{
+    width:60%;
+}
+
+
 .wrapper{
     /* height:100%; */
     display:flex;

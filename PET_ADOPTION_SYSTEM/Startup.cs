@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PET_ADOPTION_SYSTEM.Dacs;
 using PET_ADOPTION_SYSTEM.Filters;
+using PET_ADOPTION_SYSTEM.Models;
 using PET_ADOPTION_SYSTEM.Services;
 
 namespace WebApplication5
@@ -50,6 +51,7 @@ namespace WebApplication5
             services.AddScoped<IShelterService, ShelterService>();
             services.AddScoped<IArticleSerivce, ArticleSerivce>();
             services.AddScoped<IArticleDac, ArticleDac>();
+            services.Configure<SettingModel>(Configuration.GetSection("Connection"));
             
         }
 

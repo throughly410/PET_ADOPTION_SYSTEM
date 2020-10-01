@@ -13,5 +13,9 @@ namespace PET_ADOPTION_SYSTEM.Services
         IEnumerable<ANIMAL_POST_MODEL> GetArticleByMember(string CRT_USER);
         ANIMAL_POST_MODEL GetArticleDetail(int POST_ID);
         IEnumerable<ANIMAL_IMAGE_MODEL> GetANIMAL_IMAGE(int POST_ID);
+        RESULT_MODEL CheckArticleOwner(int POST_ID, string ACCOUNT);
+        RESULT_MODEL DeleteArticle(int POST_ID);
+        IEnumerable<ANIMAL_POST_MODEL> GetArticleByPage(ANIMAL_POST_MODEL aNIMAL_POST_MODEL);
+        IEnumerable<ANIMAL_POST_MODEL> GetArticleImageByPage(IEnumerable<ANIMAL_POST_MODEL> aNIMAL_POST_MODELs);
     }
 }

@@ -3,6 +3,7 @@
 *@
 @{
 }
+@model PET_ADOPTION_SYSTEM.Models.SHELTER_PARAM_MODEL
 <link rel="stylesheet" href="~/css/Shelter.css">
 <body>
     <div class="main">
@@ -14,21 +15,15 @@
                 <tr>
                     <td>動物類型</td>
                     <td>
-                        <select name="cars" id="cars">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option>
+                        <select asp-for="animal_kind" asp-items="@(ViewBag.AnimalKind)">
+                            <option value="" selected>請選擇</option>
                         </select>
 
                     </td>
                     <td>動物體型</td>
                     <td>
-                        <select name="cars" id="cars">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option>
+                        <select asp-for="animal_bodytype" asp-items="@(ViewBag.AnimalBodytype)">
+                            <option value="" selected>請選擇</option>
                         </select>
 
                     </td>
@@ -37,20 +32,14 @@
                 <tr>
                     <td>動物性別</td>
                     <td>
-                        <select name="cars" id="cars">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option>
+                        <select asp-for="animal_sex" asp-items="@(ViewBag.AnimalSex)">
+                            <option value="" selected>請選擇</option>
                         </select>
                     </td>
                     <td>動物狀態</td>
                     <td>
-                        <select name="cars" id="cars">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option>
+                        <select asp-for="animal_status" asp-items="@(ViewBag.AnimalStatus)">
+                            <option value="" selected>請選擇</option>
                         </select>
                     </td>
                 </tr>
@@ -58,14 +47,11 @@
                 <tr>
                     <td>收容所</td>
                     <td>
-                        <select name="cars" id="cars">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option>
+                        <select asp-for="animal_shelter_pkid" asp-items="@(ViewBag.Shelter)">
+                            <option value="0" selected>請選擇</option>
                         </select>
                     </td>
-                    <td>地區</td>
+                    @*<td>地區</td>
                     <td>
                         <select name="cars" id="cars">
                             <option value="volvo">Volvo</option>
@@ -73,7 +59,7 @@
                             <option value="mercedes">Mercedes</option>
                             <option value="audi">Audi</option>
                         </select>
-                    </td>
+                    </td>*@
                 </tr>
 
             </table>
@@ -174,10 +160,6 @@
                     td2.appendChild(ul);
                     lastTr.appendChild(td1);
                     lastTr.appendChild(td2);
-
-
-
-                  
                 }
             })
         }
@@ -187,11 +169,11 @@
         async function getShelterData() {
             let data = {};
             var result = {};
-            data.animal_kind = '貓';
-            data.animal_sex = 'M';
-            data.animal_bodytype = '';
-            data.animal_status = '';
-            data.animal_shelter_pkid = '';
+            data.animal_kind = document.querySelector('#animal_kind').value;
+            data.animal_sex = document.querySelector('#animal_sex').value;
+            data.animal_bodytype = document.querySelector('#animal_bodytype').value;
+            data.animal_status = document.querySelector('#animal_status').value;
+            data.animal_shelter_pkid = parseInt(document.querySelector('#animal_shelter_pkid').value);
             return fetch('@Url.Action("GetShelterData", "Shelter")', {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -207,6 +189,14 @@
                     loadData(jsonData);
                 });
         }
+
+        getShelterData()
+
+        document.querySelector('.btnSearch').addEventListener('click', function (e) {
+            getShelterData();
+        })
+
+
     </script>
 
 </body>

@@ -10,6 +10,7 @@ namespace PET_ADOPTION_SYSTEM.Services
         IEnumerable<ANIMAL_BREED_MODEL> GetANIMAL_BREED(string ANIMAL_KIND);
         IEnumerable<CITY_MODEL> GetCity();
         IEnumerable<AREA_MODEL> GetArea(int CITY_ID);
-
+        IEnumerable<SHELTER_MODEL> GetAnimalShelter();
+        IEnumerable<ANNOUNCEMENT_MODEL> GetAnnouncement();
     }
 }

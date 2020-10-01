@@ -11,5 +11,8 @@ namespace PET_ADOPTION_SYSTEM.Dacs
         IEnumerable<ANIMAL_POST_MODEL> GetANIMAL_POST_ByMember(string CRT_USER);
         ANIMAL_POST_MODEL GetANIMAL_POST_Detail(int POST_ID);
         IEnumerable<ANIMAL_IMAGE_MODEL> GetANIMAL_IMAGE(int POST_ID);
+        void DeleteANIMAL_POST(int POST_ID);
+        IEnumerable<ANIMAL_POST_MODEL> GetANIMLA_POST_ByPage(ANIMAL_POST_MODEL aNIMAL_POST_MODEL);
+        IEnumerable<ANIMAL_IMAGE_MODEL> GetANIMAL_IMAGE_ByPage(List<int> postIds);
     }
 }

@@ -9,13 +9,21 @@
     <div class="main">
         <div class="announcement">
             <h2>平台公告</h2>
-            <table>
-                <tr><td>2020-05-16</td><td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, ullam vero, quas, quaerat voluptates nemo at aut blanditiis natus non omnis numquam nostrum. Pariatur in libero enim. Aliquam, consectetur accusantium.</td></tr>
+            <table id="tbAnnounce">
+                <tr>
+                    <th id="annDate">公告日期</th>
+                    <th id="annTitle">公告標題</th>
+                </tr>
+
+                @*<tr><td >2020-05-16</td>
+                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, ullam vero, quas, quaerat voluptates nemo at aut blanditiis natus non omnis numquam nostrum. Pariatur in libero enim. Aliquam, consectetur accusantium.
+                    </td>
+                </tr>*@
             </table>
         </div>
-        <div class="wrapper">
+        <div class="wrapper" id="adopt">
             <h2>寵物領養</h2>
-            <div class="item">
+            @*<div class="item">
 
                 <img src="https://picsum.photos/id/1076/1000/400" alt="">
                 <ul>
@@ -62,58 +70,146 @@
                 </ul>
 
             </div>
-            <span><a>看更多>>></a></span>
+            <a><span>看更多>>></span></a>*@
         </div>
-        <div class="wrapper">
+        <div class="wrapper" id="stray">
             <h2>寵物協尋</h2>
-            <div class="item">
+            @*<div class="item">
 
-                <img src="https://picsum.photos/id/1076/1000/400" alt="">
-                <ul>
-                    <li>品種：混種狗</li>
-                    <li>類別：犬</li>
-                    <li>性別：公</li>
-                    <li>來源：鶯歌區</li>
-                </ul>
-            </div>
-            <div class="item">
+            <img src="https://picsum.photos/id/1076/1000/400" alt="">
+            <ul>
+                <li>品種：混種狗</li>
+                <li>類別：犬</li>
+                <li>性別：公</li>
+                <li>來源：鶯歌區</li>
+            </ul>
+        </div>
+        <div class="item">
 
-                <img src="https://picsum.photos/id/1076/1000/400" alt="">
-                <ul>
-                    <li>品種：混種狗</li>
-                    <li>類別：犬</li>
-                    <li>性別：公</li>
-                    <li>來源：鶯歌區</li>
-                </ul>
+            <img src="https://picsum.photos/id/1076/1000/400" alt="">
+            <ul>
+                <li>品種：混種狗</li>
+                <li>類別：犬</li>
+                <li>性別：公</li>
+                <li>來源：鶯歌區</li>
+            </ul>
 
-            </div>
+        </div>
 
-            <div class="item">
+        <div class="item">
 
-                <img src="https://picsum.photos/id/1076/1000/400" alt="">
-                <ul>
-                    <li>品種：混種狗</li>
-                    <li>類別：犬</li>
-                    <li>性別：公</li>
-                    <li>來源：鶯歌區</li>
-                </ul>
+            <img src="https://picsum.photos/id/1076/1000/400" alt="">
+            <ul>
+                <li>品種：混種狗</li>
+                <li>類別：犬</li>
+                <li>性別：公</li>
+                <li>來源：鶯歌區</li>
+            </ul>
 
-            </div>
+        </div>
 
-            <div class="item">
+        <div class="item">
 
-                <img src="https://picsum.photos/id/1076/1000/400" alt="">
-                <ul>
-                    <li>品種：混種狗</li>
-                    <li>類別：犬</li>
-                    <li>性別：公</li>
-                    <li>來源：鶯歌區</li>
-                </ul>
+            <img src="https://picsum.photos/id/1076/1000/400" alt="">
+            <ul>
+                <li>品種：混種狗</li>
+                <li>類別：犬</li>
+                <li>性別：公</li>
+                <li>來源：鶯歌區</li>
+            </ul>
 
-            </div>
+        </div>
 
-            <span><a>看更多>>></a></span>
+        <span><a>看更多>>></a></span>*@
 
         </div>
     </div>
 </body>
+
+<script>
+    function getAnnouncementData() {
+        var url = '@Url.Action("GetAnnouncement", "Article")';
+        fetchJsonByGet(url)
+            .then(jsonData => {
+                setAnnouncementElement(jsonData);
+        });
+    }
+
+    function getAdoptData() {
+        var data = { TAKE: 4, SKIP: 0, POST_TYPE: 1 };
+        fetchJsonByPost('@Url.Action("GetArticleByPage", "Article")', data)
+            .then(jsonData => {
+                setPetElement('adopt', jsonData);
+            })
+    }
+
+    function getStrayData() {
+        var data = { TAKE: 4, SKIP: 0, POST_TYPE: 2 };
+        fetchJsonByPost('@Url.Action("GetArticleByPage", "Article")', data)
+            .then(jsonData => {
+                setPetElement('stray', jsonData);
+            })
+    }
+
+    function setPetElement(id, jsonData) {
+        var wrapper = document.querySelector('#' + id);
+        jsonData.forEach(function (pet) {
+            var div = document.createElement('div');
+            div.className = 'item';
+            var img = document.createElement('img');
+            div.appendChild(img);
+            if (pet.ANIMAL_IMAGE_MODELs && pet.ANIMAL_IMAGE_MODELs.length > 0) {
+                img.src = pet.ANIMAL_IMAGE_MODELs[0].IMAGE_ADDRESS.replace('~', '..');
+            }
+            else {
+                img.src = '../img/unnamed.png';
+            }
+            var inputHidden = document.createElement('input');
+            inputHidden.value = pet.POST_ID;
+            inputHidden.type = 'hidden';
+            div.appendChild(inputHidden);
+            var ul = document.createElement('ul');
+            var li;
+            li = document.createElement('li');
+            li.innerText = '品種：' + pet.ANIMAL_BREED_NAME;
+            ul.appendChild(li);
+            li = document.createElement('li');
+            li.innerText = '類別：' + pet.ANIMAL_KIND;
+            ul.appendChild(li);
+            li = document.createElement('li');
+            li.innerText = '性別：' + pet.ANIMAL_SEX;
+            ul.appendChild(li);
+            li = document.createElement('li');
+            li.innerText = '來源：' + pet.AREA_NAME;
+            ul.appendChild(li);
+            div.appendChild(ul);
+            wrapper.appendChild(div);
+        })
+
+        var a = document.createElement('a');
+        var span = document.createElement('span');
+        a.appendChild(span);
+        span.innerText = '看更多';
+        wrapper.appendChild(a);
+    }
+
+    function setAnnouncementElement(jsonData) {
+        var tbAnnounce = document.querySelector('#tbAnnounce');
+        jsonData.forEach(function (item) {
+            var tr = document.createElement('tr');
+            var td;
+            td = document.createElement('td');
+            tr.appendChild(td);
+            td.innerText = item.CRT_DATE.substring(0,10);
+            td = document.createElement('td');
+            tr.appendChild(td);
+            td.innerText = item.TITLE;
+            tbAnnounce.appendChild(tr);
+        })
+    }
+    (function () {
+        getAdoptData();
+        getStrayData();
+        getAnnouncementData();
+    })()
+</script>

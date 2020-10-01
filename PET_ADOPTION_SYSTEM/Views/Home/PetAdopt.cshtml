@@ -81,7 +81,7 @@
 
         </div>
         <div class="pager">
-            <span><a href="#">1</a></span>
+            @*<span><a href="#" class="page">1</a></span>
             <span><a href="#">2</a></span>
             <span><a href="#">3</a></span>
             <span><a href="#">4</a></span>
@@ -89,77 +89,109 @@
             <span><a href="#">6</a></span>
             <span><a href="#">7</a></span>
             <span><a href="#">8</a></span>
-            <span><a href="#">9</a></span>
+            <span><a href="#">9</a></span>*@
         </div>
     </div>
 
 
 </body>
 <script>
-    var data = [
 
-        { img: '../img/pexels-sean-valentine-4085101.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-anderson-martins-3885948.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-joão-jesus-4198370.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-lucas-guimarães-4187697.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-mark-plötz-1954380.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-photo-1103905.jpeg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-sean-valentine-4085101.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-anderson-martins-3885948.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-joão-jesus-4198370.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-lucas-guimarães-4187697.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-mark-plötz-1954380.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-photo-1103905.jpeg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-sean-valentine-4085101.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-anderson-martins-3885948.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-joão-jesus-4198370.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-lucas-guimarães-4187697.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-mark-plötz-1954380.jpg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-        { img: '../img/pexels-photo-1103905.jpeg', breed: '混種狗', animal: '犬', sex: '公', area: '鶯歌區' },
-    ];
+    var setPager = (function () {
+        var currentPage = 1;
+        var totalPage = 1;
+        return function (page, total) {
+            console.log('setpager');
+            currentPage = page || 1;
+            totalPage = Math.ceil(total / 20);
+            currentPage = currentPage > totalPage ? 1 : currentPage;
+            var pager = document.querySelector('.pager');
+            var pages = [];
+            var i = -4;
+            while (pages.length < 10) {
+                if (currentPage + i > totalPage || pages.length > 8) {
+                    break;
+                }
+                if (currentPage + i < totalPage + 1 && currentPage + i > 0) {
+                    pages.push(currentPage + i);
+                }
+                i++;
+            }
 
-    // data = [
+            pager.innerHTML = '';
+            pages.forEach(function (item) {
+                var span = document.createElement('span');
+                var a = document.createElement('a');
+                a.href = '#';
+                a.innerText = item;
+                a.className = 'page';
+                span.appendChild(a);
+                pager.appendChild(span);
+            })
 
-    // {img:'https://picsum.photos/id/1060/600/400',breed:'混種貓',animal:'貓', sex:'母', area:'新莊區'},
-    // {img:'https://picsum.photos/id/1060/600/400',breed:'混種貓',animal:'貓', sex:'母', area:'新莊區'},
-    // {img:'https://picsum.photos/id/1060/600/400',breed:'混種貓',animal:'貓', sex:'母', area:'新莊區'},
-    // {img:'https://picsum.photos/id/1060/600/400',breed:'混種貓',animal:'貓', sex:'母', area:'新莊區'},
-    // {img:'https://picsum.photos/id/1060/600/400',breed:'混種貓',animal:'貓', sex:'母', area:'新莊區'},
-    // {img:'https://picsum.photos/id/1060/600/400',breed:'混種貓',animal:'貓', sex:'母', area:'新莊區'},
+            document.querySelectorAll('.page').forEach(function (item) {
+                item.addEventListener('click', function (e) {
+                    getData(e.target.innerText);
+                })
+            })
 
-    // ];
+        }
 
+    })()
 
+    function getData(page) {
+        var page = page || 1;
+        console.log('getData');
+        fetchJsonByPost('@Url.Action("GetArticleByPage", "Article")', { TAKE: 20, SKIP: parseInt(page)* 20, POST_TYPE:1 })
+            .then(jsonData => { loadData(jsonData); setPager(parseInt(page), jsonData[0].TOTAL); });
+    }
 
-    function loadData() {
+    function loadData(jsonData) {
         var wrapper = document.querySelector('.wrapper');
         wrapper.innerHTML = '';
-        data.forEach(function (pet) {
+        console.log(jsonData);
+        jsonData.forEach(function (pet) {
             var div = document.createElement('div');
             div.className = 'item';
             var img = document.createElement('img');
             div.appendChild(img);
-            img.src = pet.img;
+            if (pet.ANIMAL_IMAGE_MODELs && pet.ANIMAL_IMAGE_MODELs.length > 0) {
+                img.src = pet.ANIMAL_IMAGE_MODELs[0].IMAGE_ADDRESS.replace('~','..');
+            }
+            else {
+                img.src = '../img/unnamed.png';
+            }
+            img.classList = 'imgItem';
+            var inputHidden = document.createElement('input');
+            inputHidden.value = pet.POST_ID;
+            inputHidden.type = 'hidden';
+            div.appendChild(inputHidden);
             var ul = document.createElement('ul');
-            // ul.appendChild(document.createElement('li'));
             var li;
             li = document.createElement('li');
-            li.innerText = '品種：' + pet.breed;
+            li.innerText = '品種：' + pet.ANIMAL_BREED_NAME;
             ul.appendChild(li);
             li = document.createElement('li');
-            li.innerText = '類別：' + pet.animal;
+            li.innerText = '類別：' + pet.ANIMAL_KIND;
             ul.appendChild(li);
             li = document.createElement('li');
-            li.innerText = '性別：' + pet.sex;
+            li.innerText = '性別：' + pet.ANIMAL_SEX;
             ul.appendChild(li);
             li = document.createElement('li');
-            li.innerText = '來源：' + pet.area;
+            li.innerText = '來源：' + pet.AREA_NAME;
             ul.appendChild(li);
             div.appendChild(ul);
             wrapper.appendChild(div);
         })
-
-
+        document.querySelectorAll('.imgItem').forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                var POST_ID = e.target.nextElementSibling.value;
+                window.location.href = '@Url.Action("PostArticle","Article")?POST_ID=' + POST_ID + '&actionType=view';
+            })
+        })
     }
-    loadData();
+
+    (function () {
+        getData();
+    })()
 </script>

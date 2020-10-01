@@ -8,31 +8,31 @@
     <div class="main">
         <div class="wrapper">
             <table id="articleTable">
-                @*<tr>
+                <tr>
                     <th>文章標題</th>
                     <th>最後修改日期</th>
                     <th>選項</th>
                 </tr>
-                <tr>
-                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
-                    <td>2020/09/17</td>
-                    <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
-                </tr>
-                <tr>
-                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
-                    <td>2020/09/17</td>
-                    <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
-                </tr>
-                <tr>
-                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
-                    <td>2020/09/17</td>
-                    <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
-                </tr>
-                <tr>
-                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
-                    <td>2020/09/17</td>
-                    <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
-                </tr>*@ 
+                @*<tr>
+            <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
+            <td>2020/09/17</td>
+            <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
+        </tr>
+        <tr>
+            <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
+            <td>2020/09/17</td>
+            <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
+        </tr>
+        <tr>
+            <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
+            <td>2020/09/17</td>
+            <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
+        </tr>
+        <tr>
+            <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima at ipsum est maxime, ipsam fugiat repellat sunt necessitatibus, dolore error nihil rem laborum alias voluptatibus corrupti blanditiis eveniet ad doloremque.</td>
+            <td>2020/09/17</td>
+            <td><span><a href="">編輯</a></span><span><a href="">檢視</a></span><span><a href="">刪除</a></span>
+        </tr>*@
             </table>
 
         </div>
@@ -43,13 +43,7 @@
 
 <script>
     (function () {
-        fetch('@Url.Action("GetArticleByMember", "Article")', {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' }
-        })
-            .then(resolve => {
-                return resolve.json()
-            })
+        fetchJsonByPost('@Url.Action("GetArticleByMember", "Article")', {})
             .then(jsonData => {
                 setArticleDOM(jsonData);
             })
@@ -105,14 +99,14 @@
             document.querySelectorAll('.view').forEach(function (item) {
                 item.addEventListener('click', function (e) {
                     var POST_ID = e.target.parentElement.previousElementSibling.previousElementSibling.value;
-                    editArticle(POST_ID);
+                    viewArticle(POST_ID);
                 })
             })
 
             document.querySelectorAll('.delete').forEach(function (item) {
                 item.addEventListener('click', function (e) {
                     var POST_ID = e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.value;
-                    editArticle(POST_ID);
+                    deleteArticle(POST_ID);
                 })
             })
 
@@ -124,11 +118,17 @@
     }
 
     function viewArticle(POST_ID) {
-
+        window.location.href = '@Url.Action("PostArticle","Article")?POST_ID=' + POST_ID + '&actionType=view';
     }
 
     function deleteArticle(POST_ID) {
         var cf = confirm('確定刪除文章?');
+        if (cf) {
+            fetchJsonByPost('@Url.Action("DeleteArticle","Article")', parseInt(POST_ID)).then(jsonData => {
+                console.log(jsonData);
+                alert(jsonData.message);
+            })
+        }
     }
 
 

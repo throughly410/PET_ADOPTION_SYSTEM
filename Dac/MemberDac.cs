@@ -6,16 +6,18 @@ using System.Text;
 using System.Transactions;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using PET_ADOPTION_SYSTEM.Models;
 namespace PET_ADOPTION_SYSTEM.Dacs
 {
-    public class MemberDac : MyDisposable, IMemberDac
+    public class MemberDac : _Dac, IMemberDac
     {
+        public MemberDac(IOptions<SettingModel> setting):base(setting) { }
         public MEMBER_MODEL GetMember(MEMBER_MODEL mEMBER_MODEL)
         {
             string sql = @"SELECT * FROM MEMBER WHERE ACCOUNT = @ACCOUNT";
             MEMBER_MODEL member = null;
-            using (var conn = new SqlConnection("Data Source=(Localdb)\\MSSQLLocalDB;Database=PET_ADOPTION_SYSTEM;Trusted_Connection=True;MultipleActiveResultSets=true;"))
+            using (var conn = new SqlConnection(setting.ConnectionString))
             {
                 member = conn.Query<MEMBER_MODEL>(sql, mEMBER_MODEL).FirstOrDefault();
             }
@@ -30,7 +32,7 @@ namespace PET_ADOPTION_SYSTEM.Dacs
                              VALUES
                                         (@ACCOUNT, @PASSWARD, @NAME, @EMAIL, @PHONE, 1, 
                                         'N', @CRT_USER, GETDATE(), @MDF_USER, GETDATE());";
-            using (var conn = new SqlConnection("Data Source=(Localdb)\\MSSQLLocalDB;Database=PET_ADOPTION_SYSTEM;Trusted_Connection=True;MultipleActiveResultSets=true;"))
+            using (var conn = new SqlConnection(setting.ConnectionString))
             {
                 using(TransactionScope scope = new TransactionScope())
                 {

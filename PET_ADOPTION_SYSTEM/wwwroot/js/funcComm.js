@@ -21,9 +21,9 @@ function fetchJsonByPost(uri, data) {
     return fetch(uri, {
         method: 'POST',
         body: JSON.stringify(data),
-        header: {
+        headers: {
             'content-type': 'application/json',
-            //'requestverificationtoken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            'requestverificationtoken': document.querySelector('input[name="__RequestVerificationToken"]').value
         }  
     })
         .then(resolve => {

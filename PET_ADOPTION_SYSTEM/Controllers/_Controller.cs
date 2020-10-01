@@ -13,16 +13,15 @@ namespace PET_ADOPTION_SYSTEM.Controllers
     {
         public MEMBER_MODEL GetLoginUser()
         {
-            var a = HttpContext.User.Identity as ClaimsIdentity;
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var claims = identity.Claims;
             MEMBER_MODEL user = null;
-            if (a.Claims.Any())
+            if (claims.Any())
             {
                 user = new MEMBER_MODEL();
-                user.NAME = a.Claims.First().Value.ToString();
-                user.ROLE = int.Parse(a.Claims.Skip(1).First().Value);
-                user.ACCOUNT = a.Claims.Skip(2).First().Value.ToString();
-
-
+                user.NAME = claims.Where(m=>m.Type== "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").FirstOrDefault().Value.ToString();
+                user.ROLE = int.Parse(claims.Where(m=>m.Type== "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").FirstOrDefault().Value);
+                user.ACCOUNT = claims.Where(m=>m.Type=="Account").FirstOrDefault().Value.ToString();
             }
             return user;
         }

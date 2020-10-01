@@ -41,6 +41,6 @@ namespace PET_ADOPTION_SYSTEM.Models
         public string animal_sex { get; set; }
         public string animal_bodytype { get; set; }
         public string animal_status { get; set; }
-        public string animal_shelter_pkid { get; set; }
+        public int animal_shelter_pkid { get; set; }
     }
 }

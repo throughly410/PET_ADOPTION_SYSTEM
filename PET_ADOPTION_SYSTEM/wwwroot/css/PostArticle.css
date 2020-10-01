@@ -16,7 +16,7 @@ width:80%;
 .post-label{
 width:15%;
 }
-input[type="submit"], input[type="file"]{
+input[type="button"], input[type="file"]{
 display:block;
 margin:20px auto;
 }

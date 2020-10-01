@@ -26,8 +26,10 @@ namespace PET_ADOPTION_SYSTEM.Models
         /// 動物品種
         /// </summary>
         public string ANIMAL_BREED { get; set; }
+        public string ANIMAL_BREED_NAME { get; set; }
         public int CITY_ID { get; set; }
         public int AREA_ID { get; set; }
+        public string AREA_NAME { get; set; }
         /// <summary>
         /// 動物性別
         /// </summary>
