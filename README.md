@@ -158,8 +158,8 @@ ORM工具－Dapper
 ### 尚需改善或學習的部分
 1. 後端非同步的使用 async await  
 2. 前端資料模型驗證可改用非套件或更輕量化的套件
-3. 
-
+3. bundleconfig in .net core https://dotblogs.com.tw/supershowwei/2017/07/26/164153
+4. 後端Role的驗證
 
 ### 此專案的參考資料
 
