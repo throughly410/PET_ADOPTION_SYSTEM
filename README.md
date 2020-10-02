@@ -7,7 +7,10 @@
 ### 動機
 練習asp.net core mvc，前端大部分採用原生JS
 
-### 開發環境－asp.net core 3.1
+### 開發環境
+asp.net core 3.1  
+IDE－Visual studio 2019、Visual studio code(前端畫面設計)
+DB－SQL Server
 
 ### 分層架構  
 主專案－PET_ADOPTION_SYSTEM  
@@ -157,9 +160,14 @@ ORM工具－Dapper
 
 ### 尚需改善或學習的部分
 1. 後端非同步的使用 async await  
+https://www.huanlintalk.com/2016/01/async-and-await.html
 2. 前端資料模型驗證可改用非套件或更輕量化的套件
 3. bundleconfig in .net core https://dotblogs.com.tw/supershowwei/2017/07/26/164153
 4. 後端Role的驗證
+5. 資料存取層抽介面、泛型應用、Repository pattern、ConnectFactory(factory pattern)、Unit of Work
+https://www.c-sharpcorner.com/article/dapper-and-repository-pattern-in-web-api/
+https://kevintsengtw.blogspot.com/2015/04/aspnet-mvc-twmvc18.html
+
 
 ### 此專案的參考資料
 
