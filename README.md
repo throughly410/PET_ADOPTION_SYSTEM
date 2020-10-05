@@ -9,7 +9,7 @@
 
 ### 開發環境
 asp.net core 3.1  
-IDE－Visual studio 2019、Visual studio code(前端畫面設計)
+IDE－Visual studio 2019、Visual studio code(前端畫面設計)  
 DB－SQL Server
 
 ### 分層架構  
@@ -173,5 +173,6 @@ https://kevintsengtw.blogspot.com/2015/04/aspnet-mvc-twmvc18.html
 
 寵物收容API串接
 https://data.coa.gov.tw/Query/ServiceTransDetail.aspx?id=QcbUEzN6E6DL
-
+台灣行政區域資料
+https://github.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/blob/master/CityCountyData.json
 
