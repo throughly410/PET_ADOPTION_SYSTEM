@@ -164,7 +164,8 @@ https://www.huanlintalk.com/2016/01/async-and-await.html
 2. 前端資料模型驗證可改用非套件或更輕量化的套件
 3. bundleconfig in .net core https://dotblogs.com.tw/supershowwei/2017/07/26/164153
 4. 後端Role的驗證
-5. 資料存取層抽介面、泛型應用、Repository pattern、ConnectFactory(factory pattern)、Unit of Work
+5. 底層的架構設計還需要更多經驗學習
+Repository pattern、ConnectFactory(factory pattern)、Unit of Work
 https://www.c-sharpcorner.com/article/dapper-and-repository-pattern-in-web-api/
 https://kevintsengtw.blogspot.com/2015/04/aspnet-mvc-twmvc18.html
 
