@@ -4,9 +4,9 @@ using System.Text;
 
 namespace PET_ADOPTION_SYSTEM.Models
 {
-    public class RESULT_MODEL
+    public class ResultModel
     {
-        public RESULT_MODEL(int responseStatus = 1, string message="", dynamic data=null)
+        public ResultModel(int responseStatus = 1, string message="", dynamic data=null)
         {
             this.responseStatus = responseStatus;
             this.message = message;

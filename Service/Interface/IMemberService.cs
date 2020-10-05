@@ -7,6 +7,7 @@ namespace PET_ADOPTION_SYSTEM.Services
     {
         //string GetConnectionString();
         MEMBER_MODEL GetMember(MEMBER_MODEL mEMBER_MODEL);
-        RESULT_MODEL InsertMember(MEMBER_MODEL memberModel);
+        MEMBER_MODEL GetMemberByAccountAndPassword(MEMBER_MODEL mEMBER_MODEL);
+        ResultModel InsertMember(MEMBER_MODEL memberModel);
     }
 }

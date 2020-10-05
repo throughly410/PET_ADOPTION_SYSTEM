@@ -10,9 +10,9 @@ namespace PET_ADOPTION_SYSTEM.Models
     {
         [Required]
         public string ACCOUNT { get; set; }
-        public string PASSWARD { get; set; }
-        [Compare(nameof(PASSWARD))]
-        public string VERIFIED_PASSWARD { get; set; }
+        public string PASSWORD { get; set; }
+        [Compare(nameof(PASSWORD))]
+        public string VERIFIED_PASSWORD { get; set; }
         public string NAME {get;set;}
         public string EMAIL { get; set; }
         public string PHONE { get; set; }

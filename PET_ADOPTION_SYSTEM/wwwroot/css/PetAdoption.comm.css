@@ -59,6 +59,7 @@ font-size: 1.5em;
 
 /* 登入 */
 .login {
+    display:none;
     width:65vw;
     height: 60vh;
     background-color: floralwhite ;
@@ -102,13 +103,14 @@ font-size: 1.5em;
 
 
 /* 遮罩 */
-.blockUI{
+.blockUI {
+    display: none;
     position: fixed;
-    top:0;
-    left:0;
-    width:100vw;
-    height:100vh;
-    z-index:1000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
 }
 
 /* 叉叉 */

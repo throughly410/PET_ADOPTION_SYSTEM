@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PET_ADOPTION_SYSTEM.Models;
@@ -14,6 +15,7 @@ using PET_ADOPTION_SYSTEM.Services;
 
 namespace PET_ADOPTION_SYSTEM.Controllers
 {
+    [AllowAnonymous]
     public class ShelterController : _Controller
     {
         public IShelterService shelterService { get; }
@@ -23,9 +25,12 @@ namespace PET_ADOPTION_SYSTEM.Controllers
             this.shelterService = shelterService;
             this.paramService = paramService;
         }
+        /// <summary>
+        /// 寵物收容所頁面
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Shelter()
         {
-            //paramService.GetSET_PARAM
             ViewBag.AnimalSex = new SelectList(paramService.GetSET_PARAM("AnimalSex"), "PARAM_VALUE", "PARAM_DESC");
             ViewBag.AnimalKind = new SelectList(paramService.GetSET_PARAM("AnimalKind"), "PARAM_DESC", "PARAM_DESC");
             ViewBag.AnimalStatus = new SelectList(paramService.GetSET_PARAM("AnimalStatus"), "PARAM_VALUE", "PARAM_DESC");
@@ -33,6 +38,11 @@ namespace PET_ADOPTION_SYSTEM.Controllers
             ViewBag.Shelter = new SelectList(paramService.GetAnimalShelter(), "animal_shelter_pkid", "shelter_name");
             return View();
         }
+        /// <summary>
+        /// 寵物收容所API呼叫
+        /// </summary>
+        /// <param name="sHELTER_PARAM_MODEL"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult GetShelterData([FromBody]SHELTER_PARAM_MODEL sHELTER_PARAM_MODEL)
         {

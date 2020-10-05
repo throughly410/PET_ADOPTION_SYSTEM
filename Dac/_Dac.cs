@@ -3,6 +3,7 @@ using Microsoft.Win32.SafeHandles;
 using PET_ADOPTION_SYSTEM.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace PET_ADOPTION_SYSTEM.Dacs
 {
     public class _Dac: IDisposable
     {
+        public IDbConnection conn { get; set; }
         protected SettingModel setting { get; set; }
         public _Dac(IOptions<SettingModel> setting)
         {

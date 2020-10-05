@@ -128,7 +128,7 @@
 
 <script>
     function getAnnouncementData() {
-        var url = '@Url.Action("GetAnnouncement", "Article")';
+        var url = '@Url.Action("GetAnnouncement", "Param")';
         fetchJsonByGet(url)
             .then(jsonData => {
                 setAnnouncementElement(jsonData);

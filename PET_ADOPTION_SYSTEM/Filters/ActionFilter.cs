@@ -12,9 +12,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace PET_ADOPTION_SYSTEM.Filters
 {
-    public class Action2Filter:IActionFilter
+    public class ActionFilter:IActionFilter
     {
-
+        
         public void OnActionExecuted(ActionExecutedContext context)
         {
             if(context.Controller is Controller controller)

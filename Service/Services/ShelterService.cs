@@ -9,6 +9,11 @@ namespace PET_ADOPTION_SYSTEM.Services
 {
     public class ShelterService : IShelterService
     {
+        /// <summary>
+        /// 條件合併組成query string字串
+        /// </summary>
+        /// <param name="sHELTER_PARAM_MODEL"></param>
+        /// <returns></returns>
         public string JoinQueryParam(SHELTER_PARAM_MODEL sHELTER_PARAM_MODEL)
         {
             //可改reflection做法

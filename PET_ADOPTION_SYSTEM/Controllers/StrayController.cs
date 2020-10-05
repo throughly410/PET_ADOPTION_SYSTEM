@@ -12,13 +12,14 @@ using PET_ADOPTION_SYSTEM.Models;
 
 namespace PET_ADOPTION_SYSTEM.Controllers
 {
+    /// <summary>
+    /// 寵物協尋頁面
+    /// </summary>
     public class StrayController : _Controller
     {
         public IActionResult Index()
         {
             return View();
-        }
-
-        
+        } 
     }
 }

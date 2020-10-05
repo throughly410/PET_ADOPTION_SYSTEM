@@ -11,6 +11,10 @@ namespace PET_ADOPTION_SYSTEM.Controllers
 {
     public class _Controller : Controller
     {
+        /// <summary>
+        /// 取得登入者資訊
+        /// </summary>
+        /// <returns></returns>
         public MEMBER_MODEL GetLoginUser()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;

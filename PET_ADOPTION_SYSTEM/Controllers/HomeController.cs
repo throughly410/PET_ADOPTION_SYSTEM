@@ -36,12 +36,12 @@ namespace PET_ADOPTION_SYSTEM.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            logger.LogTrace("Loggin Level = 0 (Trace)");
-            logger.LogDebug("Loggin Level = 1 (Debug)");
-            logger.LogInformation("Loggin Level = 2 (Information)");
-            logger.LogWarning("Loggin Level = 3 (Warning )");
-            logger.LogError("Loggin Level = 4 (Error)");
-            logger.LogCritical("Loggin Level = 5 (Critical)");
+            //logger.LogTrace("Loggin Level = 0 (Trace)");
+            //logger.LogDebug("Loggin Level = 1 (Debug)");
+            //logger.LogInformation("Loggin Level = 2 (Information)");
+            //logger.LogWarning("Loggin Level = 3 (Warning )");
+            //logger.LogError("Loggin Level = 4 (Error)");
+            //logger.LogCritical("Loggin Level = 5 (Critical)");
             //GetLoginUser();
             return View();
         }
@@ -80,7 +80,7 @@ namespace PET_ADOPTION_SYSTEM.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(MEMBER_MODEL model)
         {
-            var user = memberService.GetMember(model);
+            var user = memberService.GetMemberByAccountAndPassword(model);
             if (user != null)
             {
                 Claim[] claims = new[] 
@@ -111,28 +111,5 @@ namespace PET_ADOPTION_SYSTEM.Controllers
             HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-        
-        public IActionResult AdminManage()
-        {
-            return View();
-        }
-        public IActionResult GuestBook()
-        {
-            return View();
-        }
-        public IActionResult MyPost()
-        {
-            return View();
-        }
-        public IActionResult PetAdopt()
-        {
-            return View();
-        }
-        public IActionResult PetAdoptDetail()
-        {
-            return View();
-        }
-
-
     }
 }

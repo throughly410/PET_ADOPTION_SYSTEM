@@ -196,7 +196,7 @@
     function setAnimalBreedData() {
         var animalBreed = document.querySelector('#ANIMAL_BREED');
         animalBreed.innerHTML = '';
-        return fetchJsonByPost('@Url.Action("GetAnimalBreed", "Article")',
+        return fetchJsonByPost('@Url.Action("GetAnimalBreed", "Param")',
             document.querySelector('#ANIMAL_KIND').value
         )
             .then(jsonData => {
@@ -212,7 +212,7 @@
     function setCity() {
         var city = document.querySelector('#CITY_ID');
         city.innerHTML = '';
-        fetchJsonByPost('@Url.Action("GetCity", "Article")', {})
+        fetchJsonByPost('@Url.Action("GetCity", "Param")', {})
             .then(jsonData => {
                 jsonData.forEach(function (cityItem) {
                     var option = document.createElement('option');
@@ -227,7 +227,7 @@
     function setArea() {
         var area = document.querySelector('#AREA_ID');
         area.innerHTML = '';
-        return fetchJsonByPost('@Url.Action("GetArea", "Article")',
+        return fetchJsonByPost('@Url.Action("GetArea", "Param")',
             parseInt(document.querySelector('#CITY_ID').value))
             .then(jsonData => {
                 jsonData.forEach(function (areaItem) {

@@ -29,7 +29,7 @@ namespace WebApplication5
         {
             services.AddControllers(config =>
             {
-                config.Filters.Add(new Action2Filter());
+                config.Filters.Add(new ActionFilter());
 
             });
             services.AddControllersWithViews();
@@ -44,6 +44,8 @@ namespace WebApplication5
                     options.LoginPath = new PathString("/Home/Index");
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 });
+            services.Configure<SettingModel>(Configuration.GetSection("Connection"));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IMemberDac, MemberDac>();
             services.AddScoped<IParamService, ParamService>();
@@ -51,7 +53,8 @@ namespace WebApplication5
             services.AddScoped<IShelterService, ShelterService>();
             services.AddScoped<IArticleSerivce, ArticleSerivce>();
             services.AddScoped<IArticleDac, ArticleDac>();
-            services.Configure<SettingModel>(Configuration.GetSection("Connection"));
+            services.AddScoped<IAnimalPostDac, AnimalPostDac>();
+            services.AddScoped<IAnimalImageDac, AnimalImageDac>();
             
         }
 

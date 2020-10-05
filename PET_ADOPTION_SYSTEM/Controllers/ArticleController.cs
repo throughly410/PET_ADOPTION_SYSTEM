@@ -31,6 +31,7 @@ namespace PET_ADOPTION_SYSTEM.Controllers
         ///
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public IActionResult PostArticle(int POST_ID, string actionType)
         {
             string path = hostEnvironment.ContentRootPath;
@@ -53,19 +54,8 @@ namespace PET_ADOPTION_SYSTEM.Controllers
         public JsonResult PostArticle([FromBody]ANIMAL_POST_MODEL aNIMAL_POST_MODEL)
         {
             var user = GetLoginUser();
-            aNIMAL_POST_MODEL.CRT_USER = user.ACCOUNT;
-            aNIMAL_POST_MODEL.MDF_USER = user.ACCOUNT;
-            aNIMAL_POST_MODEL.CRT_DATE = DateTime.Now;
-            aNIMAL_POST_MODEL.MDF_DATE = DateTime.Now;
-            foreach (var item in aNIMAL_POST_MODEL.ANIMAL_IMAGE_MODELs)
-            {
-                item.CRT_USER = user.ACCOUNT;
-                item.MDF_USER = user.ACCOUNT;
-                item.CRT_DATE = DateTime.Now;
-                item.MDF_DATE = DateTime.Now;
-            }
             string path = hostEnvironment.WebRootPath;
-            RESULT_MODEL result = articleService.CreateArticle(aNIMAL_POST_MODEL, path);
+            ResultModel result = articleService.CreateArticle(aNIMAL_POST_MODEL, path, user.ACCOUNT);
             return Json(result);
         }
         /// <summary>
@@ -78,76 +68,11 @@ namespace PET_ADOPTION_SYSTEM.Controllers
         public JsonResult EditArticle([FromBody] ANIMAL_POST_MODEL aNIMAL_POST_MODEL)
         {
             var user = GetLoginUser();
-            aNIMAL_POST_MODEL.CRT_USER = user.ACCOUNT;
-            aNIMAL_POST_MODEL.MDF_USER = user.ACCOUNT;
-            aNIMAL_POST_MODEL.CRT_DATE = DateTime.Now;
-            aNIMAL_POST_MODEL.MDF_DATE = DateTime.Now;
-            foreach (var item in aNIMAL_POST_MODEL.ANIMAL_IMAGE_MODELs)
-            {
-                item.CRT_USER = user.ACCOUNT;
-                item.MDF_USER = user.ACCOUNT;
-                item.CRT_DATE = DateTime.Now;
-                item.MDF_DATE = DateTime.Now;
-            }
             string path = hostEnvironment.WebRootPath;
-            RESULT_MODEL result = articleService.UpdateArticle(aNIMAL_POST_MODEL, path);
+            ResultModel result = articleService.UpdateArticle(aNIMAL_POST_MODEL, path, user.ACCOUNT);
             return Json(result);
         }
-        /// <summary>
-        /// 取得動物品種
-        /// </summary>
-        /// <param name="ANIMAL_KIND"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult GetAnimalBreed([FromBody] string ANIMAL_KIND)
-        {
-            var result = paramSerivce.GetANIMAL_BREED(ANIMAL_KIND);
-            return Json(result);
-        }
-        /// <summary>
-        /// 取得縣市資料
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult GetCity()
-        {
-            var result = paramSerivce.GetCity();
-            return Json(result);
-        }
-        [HttpPost]
-        public JsonResult GetArea([FromBody]int CITY_ID)
-        { 
-            var result = paramSerivce.GetArea(CITY_ID);
-            return Json(result);
-        }
-        /// <summary>
-        /// 取得個人文章
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public JsonResult GetArticleByMember()
-        {
-            var user = GetLoginUser();
-            var result = articleService.GetArticleByMember(user.ACCOUNT);
-            return Json(result);
-        }
-        /// <summary>
-        /// 取得文章詳細
-        /// </summary>
-        /// <param name="POST_ID"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public JsonResult GetArticleDetail([FromBody]int POST_ID)
-        {
-            var result = articleService.GetArticleDetail (POST_ID);
-            if(result is ANIMAL_POST_MODEL)
-            {
-                result.ANIMAL_IMAGE_MODELs = articleService.GetANIMAL_IMAGE(POST_ID).ToList();
-            }
-            return Json(result);
-        }
+        
         /// <summary>
         /// 刪除文章
         /// </summary>
@@ -176,6 +101,7 @@ namespace PET_ADOPTION_SYSTEM.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public JsonResult GetArticleByPage([FromBody]ANIMAL_POST_MODEL aNIMAL_POST_MODEL)
         {
             var result = articleService.GetArticleByPage(aNIMAL_POST_MODEL);
@@ -185,10 +111,52 @@ namespace PET_ADOPTION_SYSTEM.Controllers
             }
             return Json(result);
         }
-
-        public JsonResult GetAnnouncement()
+        /// <summary>
+        /// 我的文章頁面
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public IActionResult MyPost()
         {
-            var result = paramSerivce.GetAnnouncement();
+            return View();
+        }
+        /// <summary>
+        /// 寵物領養頁面
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public IActionResult PetAdopt()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 取得個人文章
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public JsonResult GetArticleByMember()
+        {
+            var user = GetLoginUser();
+            var result = articleService.GetArticleByMember(user.ACCOUNT);
+            return Json(result);
+        }
+        /// <summary>
+        /// 取得文章詳細
+        /// </summary>
+        /// <param name="POST_ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public JsonResult GetArticleDetail([FromBody] int POST_ID)
+        {
+            var result = articleService.GetArticleDetail(POST_ID);
+            if (result is ANIMAL_POST_MODEL)
+            {
+                result.ANIMAL_IMAGE_MODELs = articleService.GetANIMAL_IMAGE(POST_ID).ToList();
+            }
             return Json(result);
         }
     }

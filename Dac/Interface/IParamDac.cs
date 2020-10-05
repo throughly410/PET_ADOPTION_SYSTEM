@@ -1,10 +1,12 @@
 ﻿using PET_ADOPTION_SYSTEM.Models;
 using System.Collections.Generic;
+using System.Data;
 
 namespace PET_ADOPTION_SYSTEM.Dacs
 {
     public interface IParamDac
     {
+        IDbConnection conn { get; set; }
         IEnumerable<SET_PARAM_Model> GetSET_PARAM(string SET_TYPE);
          IEnumerable<CITY_MODEL> GetCITY();
          IEnumerable<AREA_MODEL> GetSET_PARAM(int CITY_ID);

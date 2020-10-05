@@ -13,9 +13,11 @@ namespace PET_ADOPTION_SYSTEM.Services
 {
     public class ArticleSerivce : IArticleSerivce
     {
+        private IUnitOfWork uow { get; }
         public IArticleDac articleDac { get; }
-        public ArticleSerivce(IArticleDac articleDac)
+        public ArticleSerivce(IUnitOfWork uow, IArticleDac articleDac)
         {
+            this.uow = uow;
             this.articleDac = articleDac;
         }
         /// <summary>
@@ -24,17 +26,31 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// <param name="aNIMAL_POST_MODEL"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public RESULT_MODEL CreateArticle(ANIMAL_POST_MODEL aNIMAL_POST_MODEL, string path)
+        public ResultModel CreateArticle(ANIMAL_POST_MODEL aNIMAL_POST_MODEL, string path, string account)
         {
-            int id = articleDac.Create(aNIMAL_POST_MODEL);
+            aNIMAL_POST_MODEL.CRT_USER = account;
+            aNIMAL_POST_MODEL.MDF_USER = account;
+            aNIMAL_POST_MODEL.CRT_DATE = DateTime.Now;
+            aNIMAL_POST_MODEL.MDF_DATE = DateTime.Now;
+            foreach (var item in aNIMAL_POST_MODEL.ANIMAL_IMAGE_MODELs)
+            {
+                item.CRT_USER = account;
+                item.MDF_USER = account;
+                item.CRT_DATE = DateTime.Now;
+                item.MDF_DATE = DateTime.Now;
+            }
+
+            uow.Begin();
+            uow.Open();
+            int id = uow.animalPostDac.Create(aNIMAL_POST_MODEL);
             foreach (var item in aNIMAL_POST_MODEL.ANIMAL_IMAGE_MODELs)
             {
                 item.POST_ID = id;
                 item.IMAGE_ADDRESS = ByteStrToImage(item, path);
                 UpdateImage(item);
             }
-            
-            var result = new RESULT_MODEL()
+            uow.Commit();
+            var result = new ResultModel()
             {
                 message = "新增成功",
                 responseStatus = 1
@@ -48,8 +64,22 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// <param name="aNIMAL_POST_MODEL"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public RESULT_MODEL UpdateArticle(ANIMAL_POST_MODEL aNIMAL_POST_MODEL, string path)
+        public ResultModel UpdateArticle(ANIMAL_POST_MODEL aNIMAL_POST_MODEL, string path, string account)
         {
+            aNIMAL_POST_MODEL.CRT_USER = account;
+            aNIMAL_POST_MODEL.MDF_USER = account;
+            aNIMAL_POST_MODEL.CRT_DATE = DateTime.Now;
+            aNIMAL_POST_MODEL.MDF_DATE = DateTime.Now;
+            foreach (var item in aNIMAL_POST_MODEL.ANIMAL_IMAGE_MODELs)
+            {
+                item.CRT_USER = account;
+                item.MDF_USER = account;
+                item.CRT_DATE = DateTime.Now;
+                item.MDF_DATE = DateTime.Now;
+            }
+
+            uow.Begin();
+            uow.Open();
             articleDac.Update(aNIMAL_POST_MODEL);
             foreach (var item in aNIMAL_POST_MODEL.ANIMAL_IMAGE_MODELs)
             {
@@ -57,7 +87,8 @@ namespace PET_ADOPTION_SYSTEM.Services
                 item.IMAGE_ADDRESS = ByteStrToImage(item, path);
                 UpdateImage(item);
             }
-            var result = new RESULT_MODEL()
+            uow.Commit();
+            var result = new ResultModel()
             {
                 message = "編輯成功",
                 responseStatus = 1
@@ -71,7 +102,8 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// <param name="aNIMAL_IMAGE_MODEL"></param>
         public void UpdateImage(ANIMAL_IMAGE_MODEL aNIMAL_IMAGE_MODEL)
         {
-            articleDac.UpdateImage(aNIMAL_IMAGE_MODEL);
+            uow.animalImageDac.Update(aNIMAL_IMAGE_MODEL);
+            //articleDac.UpdateImage(aNIMAL_IMAGE_MODEL);
         }
 
         public string ByteStrToImage(ANIMAL_IMAGE_MODEL aNIMAL_IMAGE_MODEL, string path)
@@ -114,7 +146,9 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// <returns></returns>
         public IEnumerable<ANIMAL_POST_MODEL> GetArticleByMember(string CRT_USER)
         {
-            var result = articleDac.GetANIMAL_POST_ByMember(CRT_USER);
+
+            //var result = articleDac.GetANIMAL_POST_ByMember(CRT_USER);
+            var result = uow.animalPostDac.GetANIMAL_POST_ByMember(CRT_USER);
             return result;
         }
         /// <summary>
@@ -124,7 +158,8 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// <returns></returns>
         public ANIMAL_POST_MODEL GetArticleDetail(int POST_ID)
         {
-            var result = articleDac.GetANIMAL_POST_Detail(POST_ID);
+            var postModel = new ANIMAL_POST_MODEL() { POST_ID = POST_ID };
+            var result = uow.animalPostDac.GetById(postModel);
             return result;
         }
         /// <summary>
@@ -134,7 +169,9 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// <returns></returns>
         public IEnumerable<ANIMAL_IMAGE_MODEL> GetANIMAL_IMAGE(int POST_ID)
         {
-            var result = articleDac.GetANIMAL_IMAGE(POST_ID);
+
+            //var result = articleDac.GetANIMAL_IMAGE(POST_ID);
+            var result = uow.animalImageDac.GetANIMAL_IMAGEs_ById(POST_ID);
             return result;
         }
         /// <summary>
@@ -143,10 +180,11 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// <param name="POST_ID"></param>
         /// <param name="ACCOUNT"></param>
         /// <returns></returns>
-        public RESULT_MODEL CheckArticleOwner(int POST_ID, string ACCOUNT)
+        public ResultModel CheckArticleOwner(int POST_ID, string ACCOUNT)
         {
-            var article = articleDac.GetANIMAL_POST_Detail(POST_ID);
-            var result = new RESULT_MODEL();
+            var postModel = new ANIMAL_POST_MODEL() { POST_ID = POST_ID };
+            var article = uow.animalPostDac.GetById(postModel);
+            var result = new ResultModel();
             if(article.CRT_USER != ACCOUNT)
             {
                 result.responseStatus = 2;
@@ -163,10 +201,14 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// </summary>
         /// <param name="POST_ID"></param>
         /// <returns></returns>
-        public RESULT_MODEL DeleteArticle(int POST_ID)
+        public ResultModel DeleteArticle(int POST_ID)
         {
-            articleDac.DeleteANIMAL_POST(POST_ID);
-            var result = new RESULT_MODEL()
+            uow.Begin();
+            uow.Open();
+            var delArticle = new ANIMAL_POST_MODEL() { POST_ID = POST_ID };
+            uow.animalPostDac.Delete(delArticle);
+            uow.Commit();
+            var result = new ResultModel()
             {
                 message = "刪除文章成功",
                 responseStatus = 1
@@ -176,14 +218,16 @@ namespace PET_ADOPTION_SYSTEM.Services
         }
         public IEnumerable<ANIMAL_POST_MODEL> GetArticleByPage(ANIMAL_POST_MODEL aNIMAL_POST_MODEL)
         {
-            var result = articleDac.GetANIMLA_POST_ByPage(aNIMAL_POST_MODEL);
+            //var result = articleDac.GetANIMLA_POST_ByPage(aNIMAL_POST_MODEL);
+            var result = uow.animalPostDac.GetANIMLA_POST_ByPage(aNIMAL_POST_MODEL);
             return result;
         }
 
         public IEnumerable<ANIMAL_POST_MODEL> GetArticleImageByPage(IEnumerable<ANIMAL_POST_MODEL> aNIMAL_POST_MODELs)
         {
             var postIds = aNIMAL_POST_MODELs.Select(m => m.POST_ID).ToList();
-            var images = articleDac.GetANIMAL_IMAGE_ByPage(postIds);
+            //var images = articleDac.GetANIMAL_IMAGE_ByPage(postIds);
+            var images = uow.animalImageDac.GetANIMAL_IMAGE_ByPage(postIds);
             foreach (var post in aNIMAL_POST_MODELs)
             {
                 post.ANIMAL_IMAGE_MODELs = images.Where(m => m.POST_ID == post.POST_ID).ToList();

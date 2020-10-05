@@ -52,25 +52,19 @@ namespace PET_ADOPTION_SYSTEM.Services
             var result = paramDac.GetAREA(CITY_ID);
             return result;
         }
-
-        //public IEnumerable<SHELTER_PARAM_MODEL> GetAnimalBodytype()
-        //{
-
-        //}
-        //public IEnumerable<SHELTER_PARAM_MODEL> GetAnimalStatus()
-        //{
-
-        //}
-        //public IEnumerable<SHELTER_PARAM_MODEL> GetAnimal_kind()
-        //{
-
-        //}
+        /// <summary>
+        /// 取得收容所資料
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<SHELTER_MODEL> GetAnimalShelter()
         {
             var result = paramDac.GetSHELTER();
             return result;
         }
-
+        /// <summary>
+        /// 取得公告事項
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ANNOUNCEMENT_MODEL> GetAnnouncement()
         {
             var result = paramDac.GetANNOUNCEMENT();

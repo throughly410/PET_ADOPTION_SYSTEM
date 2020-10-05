@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>寵物領養平台</title>
     <link rel="stylesheet" href="~/css/PetAdoption.comm.css">
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
@@ -22,27 +22,16 @@
             }
             <li><a href="#" onclick="openLoginDialog()">會員登入</a></li>
             @*<li><a href="@Url.Action("MyPost","Home")">我的文章</a></li>*@
-            <li><a href="@Url.Action("PetAdopt","Home")">寵物送養</a></li>
-            <li><a href="@Url.Action("PetAdopt","Home")">走失協尋</a></li>
+            <li><a href="@Url.Action("PetAdopt","Article")">寵物送養</a></li>
+            <li><a href="@Url.Action("PetAdopt","Article")">走失協尋</a></li>
             <li><a href="@Url.Action("Shelter","Shelter")">寵物收容所資料</a></li>
             <li><a href="@Url.Action("Register","Home")">會員註冊</a></li>
-            <li><a href="@Url.Action("GuestBook","Home")">留言板</a></li>
+            <li><a href="@Url.Action("GuestBook","GuestBook")">留言板</a></li>
             @*<li><a href="@Url.Action("AdminManage","Home")">後台管理</a></li>*@
             @*<li><a href="@Url.Action("PostArticle","Article")">發表文章</a></li>*@
             @*<li><a href="@Url.Action("SignOut","Home")">登出</a></li>*@
         </ul>
     </div>
-
-
-
-
-
-
-
-
-
-
-
 
     @RenderBody()
 
@@ -51,24 +40,19 @@
 
     </div>
 
-
-
-
     <div class="login">
         <form class="loginForm" method="post" asp-action="Login" asp-controller="Home">
             <div class="close" onclick="openLoginDialog()"></div>
             <!-- <div class="loginTitle"> -->
             <h1>會員登入</h1>
-
             <!-- </div> -->
-
             <div class="group">
                 <label for="">帳號</label>
                 <input type="text" asp-for="ACCOUNT">
             </div>
             <div class="group">
                 <label for="">密碼</label>
-                <input type="text" asp-for="PASSWARD">
+                <input type="text" asp-for="PASSWORD">
                 <input type="submit">
             </div>
         </form>
@@ -77,33 +61,5 @@
 
     </div>
 </body>
-<script>
-    document.querySelector('.blockUI').style.display = 'none';
-    document.querySelector('.login').style.display = 'none';
-
-    function openLoginDialog() {
-        toggleBlockUI();
-        openDialog('.login');
-    }
-
-    function toggleBlockUI() {
-        var blockUI = document.querySelector('.blockUI');
-        if (blockUI.style.display == 'none') {
-            blockUI.style.display = 'block';
-        }
-        else {
-            blockUI.style.display = 'none';
-        }
-    }
-    function openDialog(prefix) {
-        var objUI = document.querySelector(prefix);
-        if (objUI.style.display == 'none') {
-            objUI.style.display = 'block';
-        }
-        else {
-            objUI.style.display = 'none';
-        }
-    }
-
-</script>
+<script src="~/js/setUI.js"></script>
 </html>
