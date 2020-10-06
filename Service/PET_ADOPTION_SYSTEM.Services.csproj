@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Dac\PET_ADOPTION_SYSTEM.Dacs.csproj" />
     <ProjectReference Include="..\Models\PET_ADOPTION_SYSTEM.Models.csproj" />
+    <ProjectReference Include="..\PET_ADOPTION_SYSTEM.Common\PET_ADOPTION_SYSTEM.Common.csproj" />
   </ItemGroup>
 
 </Project>
