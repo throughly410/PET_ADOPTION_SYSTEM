@@ -16,7 +16,8 @@ DB－SQL Server
 主專案－PET_ADOPTION_SYSTEM  
 資料存取層－PET_ADOPTION_SYSTEM.Dacs  
 資料模型層－PET_ADOPTION_SYSTEM.Models  
-服務層－PET_ADOPTION_SYSTEM.Services  
+服務層－PET_ADOPTION_SYSTEM.Services 
+共用層－ PET_ADOPTION_SYSTEM.C 
 
 寫入LOG套件－NLog  
 ORM工具－Dapper  
