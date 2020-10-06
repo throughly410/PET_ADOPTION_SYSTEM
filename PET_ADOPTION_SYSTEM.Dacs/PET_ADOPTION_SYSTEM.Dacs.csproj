@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dac\PET_ADOPTION_SYSTEM.Dacs.csproj" />
-    <ProjectReference Include="..\Models\PET_ADOPTION_SYSTEM.Models.csproj" />
     <ProjectReference Include="..\PET_ADOPTION_SYSTEM.Common\PET_ADOPTION_SYSTEM.Common.csproj" />
+    <ProjectReference Include="..\PET_ADOPTION_SYSTEM.Models\PET_ADOPTION_SYSTEM.Models.csproj" />
   </ItemGroup>
 
 </Project>

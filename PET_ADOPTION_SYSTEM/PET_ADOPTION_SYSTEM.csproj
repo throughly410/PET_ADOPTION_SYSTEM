@@ -18,8 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Models\PET_ADOPTION_SYSTEM.Models.csproj" />
-    <ProjectReference Include="..\Service\PET_ADOPTION_SYSTEM.Services.csproj" />
+    <ProjectReference Include="..\PET_ADOPTION_SYSTEM.Common\PET_ADOPTION_SYSTEM.Common.csproj" />
+    <ProjectReference Include="..\PET_ADOPTION_SYSTEM.Dacs\PET_ADOPTION_SYSTEM.Dacs.csproj" />
+    <ProjectReference Include="..\PET_ADOPTION_SYSTEM.Models\PET_ADOPTION_SYSTEM.Models.csproj" />
+    <ProjectReference Include="..\PET_ADOPTION_SYSTEM.Services\PET_ADOPTION_SYSTEM.Services.csproj" />
   </ItemGroup>
 
 </Project>
