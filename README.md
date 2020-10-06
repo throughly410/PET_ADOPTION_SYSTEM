@@ -9,7 +9,7 @@
 
 ### 開發環境
 asp.net core 3.1  
-IDE－Visual studio 2019、Visual studio code(前端畫面設計)
+IDE－Visual studio 2019、Visual studio code(前端畫面設計)  
 DB－SQL Server
 
 ### 分層架構  
@@ -164,7 +164,8 @@ https://www.huanlintalk.com/2016/01/async-and-await.html
 2. 前端資料模型驗證可改用非套件或更輕量化的套件
 3. bundleconfig in .net core https://dotblogs.com.tw/supershowwei/2017/07/26/164153
 4. 後端Role的驗證
-5. 資料存取層抽介面、泛型應用、Repository pattern、ConnectFactory(factory pattern)、Unit of Work
+5. 底層的架構設計還需要更多經驗學習
+Repository pattern、ConnectFactory(factory pattern)、Unit of Work
 https://www.c-sharpcorner.com/article/dapper-and-repository-pattern-in-web-api/
 https://kevintsengtw.blogspot.com/2015/04/aspnet-mvc-twmvc18.html
 
@@ -173,5 +174,6 @@ https://kevintsengtw.blogspot.com/2015/04/aspnet-mvc-twmvc18.html
 
 寵物收容API串接
 https://data.coa.gov.tw/Query/ServiceTransDetail.aspx?id=QcbUEzN6E6DL
-
+台灣行政區域資料
+https://github.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/blob/master/CityCountyData.json
 
