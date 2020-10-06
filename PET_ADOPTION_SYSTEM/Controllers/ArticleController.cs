@@ -15,9 +15,9 @@ namespace PET_ADOPTION_SYSTEM.Controllers
     public class ArticleController : _Controller
     {
         private readonly IWebHostEnvironment hostEnvironment;
-        public IConfiguration configuration { get; }
-        public IParamService paramSerivce { get; }
-        public IArticleSerivce articleService { get; }
+        private readonly IConfiguration configuration;
+        public readonly IParamService paramSerivce;
+        public readonly IArticleSerivce articleService;
 
         public ArticleController(IConfiguration configuration, IParamService paramSerivce, IWebHostEnvironment hostEnvironment, IArticleSerivce articleService)
         {

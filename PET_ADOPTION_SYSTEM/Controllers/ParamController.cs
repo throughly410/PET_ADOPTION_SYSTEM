@@ -12,8 +12,8 @@ namespace PET_ADOPTION_SYSTEM.Controllers
     [AllowAnonymous]
     public class ParamController : _Controller
     {
-        public IParamService paramSerivce { get; }
-        public IArticleSerivce articleService { get; }
+        private readonly IParamService paramSerivce;
+        private readonly IArticleSerivce articleService;
         public ParamController(IParamService paramSerivce, IArticleSerivce articleService)
         {
             this.paramSerivce = paramSerivce;

@@ -14,7 +14,10 @@ namespace PET_ADOPTION_SYSTEM.Filters
 {
     public class ActionFilter:IActionFilter
     {
-        
+        /// <summary>
+        /// 將登入使用者資料拋到前端
+        /// </summary>
+        /// <param name="context"></param>
         public void OnActionExecuted(ActionExecutedContext context)
         {
             if(context.Controller is Controller controller)
@@ -55,7 +58,7 @@ namespace PET_ADOPTION_SYSTEM.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            string a = "";
+
         }
     }
 }

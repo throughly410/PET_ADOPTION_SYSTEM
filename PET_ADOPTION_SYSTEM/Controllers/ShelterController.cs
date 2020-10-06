@@ -18,8 +18,8 @@ namespace PET_ADOPTION_SYSTEM.Controllers
     [AllowAnonymous]
     public class ShelterController : _Controller
     {
-        public IShelterService shelterService { get; }
-        public IParamService paramService { get; }
+        private readonly IShelterService shelterService;
+        private readonly IParamService paramService;
         public ShelterController(IShelterService shelterService, IParamService paramService) 
         {
             this.shelterService = shelterService;

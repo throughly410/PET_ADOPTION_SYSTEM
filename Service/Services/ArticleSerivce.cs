@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using PET_ADOPTION_SYSTEM.Common;
 using PET_ADOPTION_SYSTEM.Dacs;
 using PET_ADOPTION_SYSTEM.Models;
 using System;
@@ -8,13 +9,12 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Text;
-
 namespace PET_ADOPTION_SYSTEM.Services
 {
     public class ArticleSerivce : IArticleSerivce
     {
-        private IUnitOfWork uow { get; }
-        public IArticleDac articleDac { get; }
+        private readonly IUnitOfWork uow;
+        private readonly IArticleDac articleDac;
         public ArticleSerivce(IUnitOfWork uow, IArticleDac articleDac)
         {
             this.uow = uow;
@@ -100,18 +100,18 @@ namespace PET_ADOPTION_SYSTEM.Services
         /// 圖片更新
         /// </summary>
         /// <param name="aNIMAL_IMAGE_MODEL"></param>
-        public void UpdateImage(ANIMAL_IMAGE_MODEL aNIMAL_IMAGE_MODEL)
+        private void UpdateImage(ANIMAL_IMAGE_MODEL aNIMAL_IMAGE_MODEL)
         {
             uow.animalImageDac.Update(aNIMAL_IMAGE_MODEL);
             //articleDac.UpdateImage(aNIMAL_IMAGE_MODEL);
         }
 
-        public string ByteStrToImage(ANIMAL_IMAGE_MODEL aNIMAL_IMAGE_MODEL, string path)
+        private string ByteStrToImage(ANIMAL_IMAGE_MODEL aNIMAL_IMAGE_MODEL, string path)
         {
             string iconString = aNIMAL_IMAGE_MODEL.IMAGE_UINT8ARRAY;
             string[] textArray = iconString.Split(',');
             var byt = textArray.Select(byte.Parse).ToArray();
-            string imgName = GetGuidString();
+            string imgName = RandomTool.GetGuidString();
             path = path + @"\img\";
             Image image = null;
             try
@@ -129,14 +129,6 @@ namespace PET_ADOPTION_SYSTEM.Services
 
                 throw;
             }
-        }
-        /// <summary>
-        /// 取得GUID隨機字串
-        /// </summary>
-        /// <returns></returns>
-        public string GetGuidString()
-        {
-            return Guid.NewGuid().ToString("N");
         }
 
         /// <summary>

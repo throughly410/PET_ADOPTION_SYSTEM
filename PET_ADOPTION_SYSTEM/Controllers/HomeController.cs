@@ -21,9 +21,8 @@ namespace PET_ADOPTION_SYSTEM.Controllers
     public class HomeController : _Controller
     {
         private readonly ILogger logger;
-        public IConfiguration configuration { get; }
-        public IMemberService memberService { get; }
-
+        private readonly IConfiguration configuration;
+        public readonly IMemberService memberService;
         public HomeController(ILogger<HomeController> _logger, IConfiguration configuration, IMemberService memberService)
         {
             this.logger = _logger;
