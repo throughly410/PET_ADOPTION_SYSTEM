@@ -14,7 +14,7 @@ namespace WebApplication5
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("123");
+            Console.WriteLine("Website PET_ADOPTION_SYSTEM Start");
             CreateHostBuilder(args).Build().Run();
         }
 
